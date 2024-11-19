@@ -11,7 +11,33 @@ const MAXINTENTOS = 5;
 
 // ITALO
 
+// ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
+/* 
+* Función que agranda el logo cuando pases por encima
+*/ 
+function agrandarLogo() {
+    // Obtener el logo
+    let logo = document.getElementById('logo-footer');
+    efectoAgrandarImagen(logo);
+}
+agrandarLogo();
 
+/*
+* Cuando el mouse pasa por encima,la imagen
+* se agranda y cuando sale vuelve a su tamano
+*/
+function efectoAgrandarImagen(objetoImagen) {
+    objetoImagen.addEventListener('mouseover', function() {
+        objetoImagen.style.transform = 'scale(1.1)';
+    });
+    objetoImagen.addEventListener('mouseout', function() {
+        objetoImagen.style.transform = 'scale(1)';
+    });
+}
+
+// ------------------ FIN - FUNCIONES DE DETALLES ------------------ //
+
+// ------------------ INICIO - FUNCIONES UTILES ------------------ //
 /* 
 * Función para elegir una imagen
 * aleatoria al inciar la página
@@ -71,3 +97,5 @@ function actualizarRespuestas(){
 function verificar() {
     
 }
+
+// ------------------ FIN - FUNCIONES UTILES ------------------ //
