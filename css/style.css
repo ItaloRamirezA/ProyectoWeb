@@ -21,6 +21,7 @@ body {
     margin: 0;
     padding: 0;
     background-image: url('/images/fondo.png');
+	background-size: cover;
     font-family: 'MinecraftRegular', sans-serif; /* Fuente de mc y una fuente por si falla */
     color: white;
     text-align: center;
