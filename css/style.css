@@ -1,8 +1,26 @@
-@import url('https://fonts.cdnfonts.com/css/minecraft-4');
+/* Fuente Regultar */
+@font-face {
+    font-family: 'Regular';
+    src: url('/fonts/Regular.otf') format('opentype');
+}
+
+/* Fuente Regular Italic */
+@font-face {
+    font-family: 'RegularItalic';
+    src: url('/fonts/RegularItalic.otf') format('opentype');
+}
+
+/* Fuente Bold Italic */
+@font-face {
+    font-family: 'BoldItalic';
+    src: url('/fonts/BoldItalic.otf') format('opentype');
+}
+
 
 body {
-    font-family: 'Minecraft', sans-serif;
-}	
+    font-family: 'Regular', sans-serif;
+}
+
 #main-header {
 	background: greenyellow;
 	color: white;
