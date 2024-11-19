@@ -38,25 +38,25 @@ body {
 
 #logo-footer {
     height: 125px;
-	transition: transform 0.3s ease; /* Suaviza la animación de transformación */
+	transition: transform 0.3s ease; /* Suaviza la animacion de agrandar la img */
 }
 
 /* Div de la imagen a adivinar */
 #contenedor-imagen-adivinar {
     margin: auto auto;
-    height: 300px;
-    width: 300px;
+    height: 375px;
+    width: 375px;
     background-color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 5px solid greenyellow;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 /* Imagen a adivinar */
 #imagen-adivinar {
-    height: 150px;
+    height: 175px;
 }
 
 /* Entrada de texto */
@@ -83,6 +83,6 @@ body {
     transition: background-color 0.3s;
 }
 
-#boton-enviar:hover {
+#boton-adivinar:hover {
     background-color: #8ad039;
 }

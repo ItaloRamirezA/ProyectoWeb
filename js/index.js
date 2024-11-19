@@ -13,22 +13,26 @@ const MAXINTENTOS = 5;
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
-* Función que agranda el logo cuando pases por encima
+* Función que agranda el objeto
 */ 
-function agrandarLogo() {
-    // Obtener el logo
+function agrandar() {
+    // Logo del footer
     let logo = document.getElementById('logo-footer');
-    efectoAgrandarImagen(logo);
+    efectoAgrandarImagen(logo, 1.15);
+
+    // Logo del boton de adivinar
+    let botonAdivinar = document.getElementById('boton-adivinar');
+    efectoAgrandarImagen(botonAdivinar, 1.05);
 }
-agrandarLogo();
+agrandar();
 
 /*
 * Cuando el mouse pasa por encima,la imagen
 * se agranda y cuando sale vuelve a su tamano
 */
-function efectoAgrandarImagen(objetoImagen) {
+function efectoAgrandarImagen(objetoImagen, escala) {
     objetoImagen.addEventListener('mouseover', function() {
-        objetoImagen.style.transform = 'scale(1.1)';
+        objetoImagen.style.transform = `scale(${escala})`;
     });
     objetoImagen.addEventListener('mouseout', function() {
         objetoImagen.style.transform = 'scale(1)';
