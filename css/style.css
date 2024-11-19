@@ -1,3 +1,4 @@
+/* ------------------ FUENTES ------------------ */
 /* Fuente Regular */
 @font-face {
     font-family: 'MinecraftRegular';
@@ -41,6 +42,7 @@ body {
 	transition: transform 0.3s ease; /* Suaviza la animacion de agrandar la img */
 }
 
+/* ------------------ Zona Imagen ------------------ */
 /* Div de la imagen a adivinar */
 #contenedor-imagen-adivinar {
     margin: auto auto;
@@ -59,6 +61,7 @@ body {
     height: 175px;
 }
 
+/* ------------------ Zona Adivinar ------------------ */
 /* Entrada de texto */
 #entrada-respuesta {
     margin-top: 20px;
@@ -83,6 +86,7 @@ body {
     transition: background-color 0.3s;
 }
 
+/* Cuando pases el raton por el boton */
 #boton-adivinar:hover {
     background-color: #8ad039;
 }

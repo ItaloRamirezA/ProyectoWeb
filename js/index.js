@@ -1,15 +1,15 @@
-// UNAI
-// Array de las imagenes que saldrán al inicio
+// Map de las imagenes que saldrán al inicio
 let imagenes = new Map();
 
-// MICHAEL
+
+
 // Variable en la que almacena los intentos que tiene el usuario para adivinar.
 let contIntentos = 0;
 
 // Variable en la que almacena lo máximos intentos que va a tener el usuario para adivinar.
 const MAXINTENTOS = 5;
 
-// ITALO
+
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
@@ -59,7 +59,6 @@ function elegirImagen() {
     imagenes.set("Whiter",'images/wither.png');
     imagenes.set("Zombie",'images/zombie.png');
 }
-
 
 /*
  * Coge una imagen y la divide
