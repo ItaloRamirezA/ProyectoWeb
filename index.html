@@ -7,13 +7,31 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header id="main_header">
-        <a id="logo_header" href="images/logo.png"></a>
+    <!------------------ CABECERA ------------------>
+    <header id="cabecera-principal">
+        <a id="logo-footer" href="#">
+            <img id="logo-footer" src="images/logo.png" alt="Logo MinecraftDle">
+        </a>
     </header>
+    
+    <!--------- TITULO --------->
+    <h1 id="titulo-principal">Adivina el Mob</h1>
+    
+    <!--------- IMAGEN A ADIVINAR --------->
+    <div id="contenedor-imagen-adivinar">
+        <img id="imagen-adivinar" src="images/zombie.png" alt="Logo MinecraftDle">
+    </div>
+    
+    <!--------- ENTRADA DE RESPUESTA --------->
+    <input type="text" id="entrada-respuesta" placeholder="Escriba un nombre...">
 
-    <h1>Minecraft</h1>
-    <input type="text" id="resptUser" placeholder="Ingrese su respuesta">
+    <!--------- BOTON ENVIAR --------->
+    <button id="boton-enviar">Enviar</button>
 
+
+
+    
+    <!--------- ENLACE AL JAVASCRIPT --------->
+    <script src="js/index.js"></script>
 </body>
-<script src="js/index.js"></script>
 </html>

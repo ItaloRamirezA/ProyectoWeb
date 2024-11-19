@@ -1,12 +1,12 @@
-/* Fuente Regultar */
+/* Fuente Regular */
 @font-face {
-    font-family: 'Regular';
+    font-family: 'MinecraftRegular';
     src: url('/fonts/Regular.otf') format('opentype');
 }
 
-/* Fuente Regular Italic */
+/* Fuente Italic */
 @font-face {
-    font-family: 'RegularItalic';
+    font-family: 'MinecraftItalic';
     src: url('/fonts/RegularItalic.otf') format('opentype');
 }
 
@@ -16,13 +16,71 @@
     src: url('/fonts/BoldItalic.otf') format('opentype');
 }
 
-
+/* ------------------ BODY ------------------ */
 body {
-    font-family: 'Regular', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('/images/fondo.png');
+    font-family: 'MinecraftRegular', sans-serif; /* Fuente de mc y una fuente por si falla */
+    color: white;
+    text-align: center;
 }
 
-#main-header {
-	background: greenyellow;
-	color: white;
-	height: 80px;
-}	
+/* ------------------ CABECERA ------------------ */
+#cabecera-principal {
+    background-color: greenyellow;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-footer {
+    height: 125px;
+}
+
+/* Div de la imagen a adivinar */
+#contenedor-imagen-adivinar {
+    margin: auto auto;
+    height: 300px;
+    width: 300px;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid greenyellow;
+    border-radius: 10px;
+}
+
+/* Imagen a adivinar */
+#imagen-adivinar {
+    height: 85%;
+}
+
+/* Entrada de texto */
+#entrada-respuesta {
+    margin-top: 20px;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    font-size: 120%;
+    border: 2px solid greenyellow;
+    border-radius: 5px;
+    background-color: #222;
+    color: white;
+}
+
+/* Boton enviar */
+#boton-enviar {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 120%;
+    background-color: greenyellow;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#boton-enviar:hover {
+    background-color: #8ad039;
+}
