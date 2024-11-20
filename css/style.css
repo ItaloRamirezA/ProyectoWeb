@@ -1,13 +1,13 @@
 /* ------------------ FUENTES ------------------ */
 /* Fuente Regular */
 @font-face {
-    font-family: 'MinecraftRegular';
+    font-family: 'Regular';
     src: url('/fonts/Regular.otf') format('opentype');
 }
 
 /* Fuente Italic */
 @font-face {
-    font-family: 'MinecraftItalic';
+    font-family: 'Italic';
     src: url('/fonts/RegularItalic.otf') format('opentype');
 }
 
@@ -22,10 +22,14 @@ body {
     margin: 0;
     padding: 0;
     background-image: url('/images/fondo.png');
+    font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 	background-size: cover;
-    font-family: 'MinecraftRegular', sans-serif; /* Fuente de mc y una fuente por si falla */
     color: white;
     text-align: center;
+}
+
+button {
+    font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 }
 
 /* ------------------ CABECERA ------------------ */
@@ -84,9 +88,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    border: none;
 }
 
 /* Cuando pases el raton por el boton */
 #boton-adivinar:hover {
-    background-color: #8ad039;
+    background-color: #6ea72e;
 }
