@@ -21,9 +21,13 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('/images/fondo.png');
     font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
-	background-size: cover;
+    /* Fondo */
+    background-image: url('/images/fondo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: white;
     text-align: center;
 }
@@ -34,7 +38,6 @@ button {
 
 /* ------------------ CABECERA ------------------ */
 #cabecera-principal {
-    background-color: greenyellow;
     padding: 10px 10px;
     display: flex;
     justify-content: center;

@@ -14,7 +14,7 @@ const MAXINTENTOS = 5;
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
 * Función que agranda el objeto
-*/ 
+*/
 function agrandar() {
     // Logo del footer
     let logo = document.getElementById('logo-footer');
@@ -31,10 +31,10 @@ agrandar();
 * se agranda y cuando sale vuelve a su tamano
 */
 function efectoAgrandarImagen(objetoImagen, escala) {
-    objetoImagen.addEventListener('mouseover', function() {
+    objetoImagen.addEventListener('mouseover', function () {
         objetoImagen.style.transform = `scale(${escala})`;
     });
-    objetoImagen.addEventListener('mouseout', function() {
+    objetoImagen.addEventListener('mouseout', function () {
         objetoImagen.style.transform = 'scale(1)';
     });
 }
@@ -45,26 +45,31 @@ function efectoAgrandarImagen(objetoImagen, escala) {
 /* 
 * Función para elegir una imagen
 * aleatoria al inciar la página
-*/ 
+*/
+elegirImagen();
 function elegirImagen() {
-    imagenes.set("Ajolote",'images/ajolote.png');
-    imagenes.set("Cerdo",'images/cerdo.png');
-    imagenes.set("Esqueleto",'images/esqueleto.png');
-    imagenes.set("EsqueletoWither",'images/esqueletoWither.png');
-    imagenes.set("Gato",'images/gato.png');
-    imagenes.set("Ghast",'images/ghast.png');
-    imagenes.set("Ocelote",'images/ocelote.png');
-    imagenes.set("PiglinBruto",'images/piglinBruto.png');
-    imagenes.set("Warden",'images/warden.png');
-    imagenes.set("Whiter",'images/wither.png');
-    imagenes.set("Zombie",'images/zombie.png');
+    imagenes.set("Ajolote", 'images/ajolote.png');
+    imagenes.set("Cerdo", 'images/cerdo.png');
+    imagenes.set("Esqueleto", 'images/esqueleto.png');
+    imagenes.set("EsqueletoWither", 'images/esqueletoWither.png');
+    imagenes.set("Gato", 'images/gato.png');
+    imagenes.set("Ghast", 'images/ghast.png');
+    imagenes.set("Ocelote", 'images/ocelote.png');
+    imagenes.set("PiglinBruto", 'images/piglinBruto.png');
+    imagenes.set("Warden", 'images/warden.png');
+    imagenes.set("Whiter", 'images/wither.png');
+    imagenes.set("Zombie", 'images/zombie.png');
+let numImg=Math.floor(Math.random() * imagenes.length);
+console.log(numImg);
+
+
 }
 
 /*
  * Coge una imagen y la divide
  */
 function trozoImagen() {
-    
+
 }
 
 /**
@@ -75,19 +80,19 @@ function agregarRespuesta() {
 
     const resptUser = document.getElementById("entrada-respuesta").value.trim();
 
-    if(resptUser != ""){
+    if (resptUser != "") {
 
-        while(contIntentos < MAXINTENTOS){
-            
+        while (contIntentos < MAXINTENTOS) {
+
         }
     }
 }
 
 /**
  * Función que actualiza la lista
- * de respuestas y creamos.
+ * de respuestas y crea debajo las respuestas introducidas.
  */
-function actualizarRespuestas(){
+function actualizarRespuestas() {
 
     let respuestas = localStorage.getItem("respuestas");
 
@@ -95,10 +100,10 @@ function actualizarRespuestas(){
 
 
 /**
- * 
+ * Función que verifica si la respuesta es correcta
  */
 function verificar() {
-    
+
 }
 
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
