@@ -1,38 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MINECRAFTDLE</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <!------------------ FOOTER ------------------>
+    <!------------------ HEADER ------------------>
     <header id="cabecera-principal">
-        <!-- Logo y link del footer -->
+        <!-- Logo y link del HEADER -->
         <a id="logo-footer" href="index.html">
             <img id="logo-footer" src="images/logo.png" alt="Logo MinecraftDle">
         </a>
     </header>
-    
+
     <!--------- TITULO --------->
     <h1 id="titulo-principal">Adivina el Mob</h1>
-    
-    <!--------- IMAGEN A ADIVINAR --------->
-    <div id="contenedor-imagen-adivinar">
-        <img id="imagen-adivinar" src="images/ocelote.png" alt="Imagen adivinar">
-    </div>
-    
-    <!--------- ENTRADA DE RESPUESTA --------->
-    <input type="text" id="entrada-respuesta" placeholder="Escriba un nombre...">
 
-    <!--------- BOTON ADIVINAR --------->
+    <!--------- Imagen a adivinar --------->
+    <div id="contenedor-imagen-adivinar"> ? </div>
+
+    <!--------- Entrada de respuesta --------->
+    <div>
+        <input type="text" id="entrada-respuesta" placeholder="Escriba un nombre...">
+    </div>
+
+    <!--------- Boton adivinar --------->
     <button onclick="botonAdivinar()" id="boton-adivinar">Adivinar</button>
 
+    <!--------- Respuestas incorrectas --------->
+    <div id="caja-respuestas-incorrectas">
 
+    </div>
 
 
     <!--------- ENLACE AL JAVASCRIPT --------->
     <script src="js/index.js"></script>
 </body>
+
 </html>

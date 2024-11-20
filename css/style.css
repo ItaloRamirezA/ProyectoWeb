@@ -42,12 +42,10 @@ button {
     font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 }
 
-/* ------------------ CABECERA ------------------ */
+/* ------------------ HEADER ------------------ */
 #cabecera-principal {
     padding: 10px 10px;
-    display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 #logo-footer {
@@ -76,7 +74,7 @@ button {
 
 /* ------------------ Zona Adivinar ------------------ */
 /* Entrada de texto */
-#entrada-respuesta {
+#entrada-respuesta{
     margin-top: 20px;
     padding: 10px;
     width: 80%;
@@ -86,6 +84,9 @@ button {
     border-radius: 5px;
     background-color: #222;
     color: white;
+}
+#entrada-respuesta::placeholder {
+    font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 }
 
 /* Boton enviar */

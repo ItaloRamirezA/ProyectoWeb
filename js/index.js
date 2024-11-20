@@ -9,8 +9,7 @@ let contIntentos = 0;
 const MAXINTENTOS = 5;
 
 // Respuesta del usuario
-let respuestaUsario = document.getElementById("entrada-respuesta").value;
-
+let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
@@ -44,18 +43,11 @@ function efectoAgrandarImagen(objetoImagen, escala) {
 
 // ------------------ INICIO - FUNCIONES UTILES ------------------ //
 /*
-Funcion para rellenar el hashmap con arrays de imagenes
+* Funcion para rellenar el hashmap con arrays de imagenes
 */
 function rellenarMapa() {
-    
-}
-/*
-* Función para elegir una imagen
-* aleatoria al inciar la página
-*/
-
-function elegirImagen() {
-    imagenes.set("Ajolote", 'images/ajolote.png');
+    let arrrayImagenMob="";
+    imagenes.set("Ajolote", arrrayImagenMob=imagenes/Ajolote);
     imagenes.set("Cerdo", 'images/cerdo.png');
     imagenes.set("Esqueleto", 'images/esqueleto.png');
     imagenes.set("EsqueletoWither", 'images/esqueletoWither.png');
@@ -66,7 +58,13 @@ function elegirImagen() {
     imagenes.set("Warden", 'images/warden.png');
     imagenes.set("Whiter", 'images/wither.png');
     imagenes.set("Zombie", 'images/zombie.png');
-    
+}
+
+/*
+* Función para elegir una imagen
+* aleatoria al inciar la página
+*/
+function elegirImagen() {
     let numeroRandom = Math.floor(Math.random() * imagenes.size);
     return numeroRandom;
 }
@@ -74,10 +72,9 @@ function elegirImagen() {
 /*
  * Coge una imagen y la divide
  */
-function trozoImagen() {
-let im=elegirImagen();
-let ima=imagenes[im];
-
+function dividirImagen() {
+    let im = elegirImagen();
+    let ima = imagenes[im];
 }
 
 /**
@@ -86,9 +83,9 @@ let ima=imagenes[im];
  */
 function agregarRespuesta() {
 
-    const resptUser = document.getElementById("entrada-respuesta").value.trim();
+    respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
 
-    if (resptUser != "") {
+    if (respuestaUsario != "") {
 
         // while (contIntentos < MAXINTENTOS) {
 
@@ -101,10 +98,12 @@ function agregarRespuesta() {
                 respuestas = [];
             }
 
-            respuestas.push(resptUser);
+            respuestas.push(respuestaUsario);
             localStorage.setItem("respuestas", JSON.stringify(respuestas));
 
-            resptUser.value = "";
+            respuestaUsario.value = "";
+
+            actualizarRespuestas();
         // }
     }
 }
@@ -132,21 +131,28 @@ function actualizarRespuestas() {
 
         let respuestaUser = respuestas[i];
 
-        const input = document.createElement("input");
-        input.textContent = "";
+        const input = document.createElement("div");
+        input.innerHTML = `<input type="text" placeholder="Escriba un nombre...">`;
         
         listaRespuestas.appendChild(input);
         
     }
 }
 
+/**
+ * Función que devuelve la respuesta
+ */
+function respuesta() {
+    
+}
 
 /**
  * Función que verifica si la respuesta es correcta
  */
 function botonAdivinar() {
     agregarRespuesta();
-    actualizarRespuestas();
+    // Respuesta del usuario
+    respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
     console.log("Respuesta del usuario:" + respuestaUsario);
 }
 
