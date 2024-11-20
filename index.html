@@ -20,24 +20,23 @@
     <!--------- TITULO --------->
     <h1 id="titulo-principal">Adivina el Mob</h1>
 
-    <!--------- Imagen a adivinar --------->
+    <!------ Div de las imagenes a adivinar ------>
     <div id="contenedor-imagen-adivinar"> ? </div>
 
-    <!--------- Entrada de respuesta --------->
-    <div>
-        <input type="text" id="entrada-respuesta" placeholder="Escriba un nombre...">
-    </div>
+    <!------ Entrada de respuesta ------>
+    <input type="text" id="entrada-respuesta" placeholder="Escriba un nombre...">
 
-    <!--------- Boton adivinar --------->
+    <!------ Boton adivinar ------>
     <button onclick="botonAdivinar()" id="boton-adivinar">Adivinar</button>
 
-    <!--------- Respuestas incorrectas --------->
-    <div id="caja-respuestas-incorrectas">
-
+    <!------ Respuestas incorrectas ------>
+    <div id="contenedor-respuestas">
+        <ol id="respuestasUser">
+        </ol>
     </div>
 
 
-    <!--------- ENLACE AL JAVASCRIPT --------->
+    <!------ ENLACE AL JAVASCRIPT ------>
     <script src="js/index.js"></script>
 </body>
 

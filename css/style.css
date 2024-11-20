@@ -65,6 +65,7 @@ button {
     justify-content: center;
     border: 5px solid greenyellow;
     border-radius: 15px;
+    font-size: 200px; /* probablmenete borrar */
 }
 
 /* Imagen a adivinar */
