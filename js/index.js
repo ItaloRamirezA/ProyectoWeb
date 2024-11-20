@@ -1,6 +1,6 @@
 // ------------------ Variables Globales ------------------ //
 // Map de las imagenes que saldrán al inicio
-let imagenes = new Map();
+let imagenes = new Array();
 
 // Almacena los intentos que tiene el usuario para adivinar.
 let contIntentos = 0;
@@ -10,6 +10,9 @@ const MAXINTENTOS = 5;
 
 // Almacena la posición de la imagen random
 let posImagenRandom;
+
+//Array que contendra los numeros de los trozos de imagenes que ya se han usado para no repetirlos
+let trozoDeimagenes=new Array();
 
 // Respuesta del usuario
 let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
@@ -46,21 +49,21 @@ function efectoAgrandarImagen(objetoImagen, escala) {
 
 // ------------------ INICIO - FUNCIONES UTILES ------------------ //
 /*
-* Funcion para rellenar el hashmap con arrays de imagenes 
+* Funcion para rellenar el array con arrays de imagenes 
 * solo cuando el usuario entre por primera vez o despues de cerrar el navegador
 */
-function rellenarMapa() {
-    imagenes.set("Ajolote", ['images/Ajolote/fila-1-columna-1.png', 'images/Ajolote/fila-1-columna-2.png', 'images/Ajolote/fila-2-columna-1.png', 'images/Ajolote/fila-2-columna-2.png']);
-    imagenes.set("Cerdo", ['images/Cerdo/fila-1-columna-1.png', 'images/Cerdo/fila-1-columna-2.png', 'images/Cerdo/fila-2-columna-1.png', 'images/Cerdo/fila-2-columna-2.png']);
-    imagenes.set("Esqueleto", ['images/Esqueleto/fila-1-columna-1.png', 'images/Esqueleto/fila-1-columna-2.png', 'images/Esqueleto/fila-2-columna-1.png', 'images/Esqueleto/fila-2-columna-2.png']);
-    imagenes.set("EsqueletoWither", ['images/EsqueletoWither/fila-1-columna-1.png', 'images/EsqueletoWither/fila-1-columna-2.png', 'images/EsqueletoWither/fila-2-columna-1.png', 'images/EsqueletoWither/fila-2-columna-2.png']);
-    imagenes.set("Gato", ['images/Gato/fila-1-columna-1.png', 'images/Gato/fila-1-columna-2.png', 'images/Gato/fila-2-columna-1.png', 'images/Gato/fila-2-columna-2.png']);
-    imagenes.set("Ghast", ['images/Ghast/fila-1-columna-1.png', 'images/Ghast/fila-1-columna-2.png', 'images/Ghast/fila-2-columna-1.png', 'images/Ghast/fila-2-columna-2.png']);
-    imagenes.set("Ocelote", ['images/Ocelote/fila-1-columna-1.png', 'images/Ocelote/fila-1-columna-2.png', 'images/Ocelote/fila-2-columna-1.png', 'images/Ocelote/fila-2-columna-2.png']);
-    imagenes.set("PiglinBruto", ['images/PiglinBruto/fila-1-columna-1.png', 'images/PiglinBruto/fila-1-columna-2.png', 'images/PiglinBruto/fila-2-columna-1.png', 'images/PiglinBruto/fila-2-columna-2.png']);
-    imagenes.set("Warden", ['images/Warden/fila-1-columna-1.png', 'images/Warden/fila-1-columna-2.png', 'images/Warden/fila-2-columna-1.png', 'images/Warden/fila-2-columna-2.png']);
-    imagenes.set("Whiter", ['images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png']);
-    imagenes.set("Zombie", ['images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']);
+function rellenarArray() {
+    imagenes.push( ["Ajolote",'images/Ajolote/fila-1-columna-1.png', 'images/Ajolote/fila-1-columna-2.png', 'images/Ajolote/fila-2-columna-1.png', 'images/Ajolote/fila-2-columna-2.png']);
+    imagenes.push( ["Cerdo",'images/Cerdo/fila-1-columna-1.png', 'images/Cerdo/fila-1-columna-2.png', 'images/Cerdo/fila-2-columna-1.png', 'images/Cerdo/fila-2-columna-2.png']);
+    imagenes.push( ["Esqueleto",'images/Esqueleto/fila-1-columna-1.png', 'images/Esqueleto/fila-1-columna-2.png', 'images/Esqueleto/fila-2-columna-1.png', 'images/Esqueleto/fila-2-columna-2.png']);
+    imagenes.push( ["EsqueletoWither",'images/EsqueletoWither/fila-1-columna-1.png', 'images/EsqueletoWither/fila-1-columna-2.png', 'images/EsqueletoWither/fila-2-columna-1.png', 'images/EsqueletoWither/fila-2-columna-2.png']);
+    imagenes.push( ["Gato",'images/Gato/fila-1-columna-1.png', 'images/Gato/fila-1-columna-2.png', 'images/Gato/fila-2-columna-1.png', 'images/Gato/fila-2-columna-2.png']);
+    imagenes.push( ["Ghast",'images/Ghast/fila-1-columna-1.png', 'images/Ghast/fila-1-columna-2.png', 'images/Ghast/fila-2-columna-1.png', 'images/Ghast/fila-2-columna-2.png']);
+    imagenes.push( ["Ocelote",'images/Ocelote/fila-1-columna-1.png', 'images/Ocelote/fila-1-columna-2.png', 'images/Ocelote/fila-2-columna-1.png', 'images/Ocelote/fila-2-columna-2.png']);
+    imagenes.push( ["PiglinBruto",'images/PiglinBruto/fila-1-columna-1.png', 'images/PiglinBruto/fila-1-columna-2.png', 'images/PiglinBruto/fila-2-columna-1.png', 'images/PiglinBruto/fila-2-columna-2.png']);
+    imagenes.push( ["Warden",'images/Warden/fila-1-columna-1.png', 'images/Warden/fila-1-columna-2.png', 'images/Warden/fila-2-columna-1.png', 'images/Warden/fila-2-columna-2.png']);
+    imagenes.push( ["Whiter",'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png']);
+    imagenes.push( ["Zombie",'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']);
 }
 
 /*
@@ -68,17 +71,44 @@ function rellenarMapa() {
 * aleatoria al inciar la página
 */
 function elegirImagenRandom() {
-    posImagenRandom = Math.floor(Math.random() * imagenes.size);
-    return posImagenRandom;
+    posImagenRandom = Math.floor(Math.random() * imagenes.length);
+    return imagenes[posImagenRandom]
 }
 
-/*
- * Coge una imagen y la divide
- */
-function dividirImagen() {
-    let im = elegirImagenRandom();
-    let ima = imagenes[im];
+
+
+//este metodo sera el encarfgado de msotrar el trozo de iamgen aleatorio
+function mostrarImagen() { 
+    //va mal
+        let contenedor = document.getElementById('contenedor-imagen-adivinar');
+        contenedor.innerHTML = ''; // Limpiar el contenedor
+        
+        let selectedIMG = elegirImagenRandom(); // Seleccionar imagen aleatoria
+        let trozo;
+    
+        // Continuar seleccionando un trozo hasta que sea uno no utilizado
+        do {
+            trozo = Math.floor(Math.random() * (selectedIMG.length - 1)) + 1; // Índices de trozos van del 1 al tamaño del arreglo
+        } while (trozoDeimagenes.includes(trozo));
+    
+        // Registrar el número del trozo seleccionado en el arreglo
+        trozoDeimagenes.push(trozo);
+    
+        // Verificar si ya se han usado todos los trozos
+        if (trozoDeimagenes.length >= 4) {
+            console.log("out"); // Mostrar mensaje en la consola
+        }
+    
+        // Crear y mostrar el trozo de imagen
+        let fragmento = document.createElement('img');
+        fragmento.src = selectedIMG[trozo];
+        contenedor.appendChild(fragmento);
+    
+
 }
+
+
+
 
 /**
  * Función en la que se agrega la respuesta y
