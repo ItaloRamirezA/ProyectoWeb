@@ -2,25 +2,25 @@
 /* Fuente Regular */
 @font-face {
     font-family: 'Regular';
-    src: url('/fonts/Regular.otf') format('opentype');
+    src: url('../fonts/Regular.otf') format('opentype');
 }
 
 /* Fuente Bold Italic */
 @font-face {
     font-family: 'Bold';
-    src: url('/fonts/bold.otf') format('opentype');
+    src: url('../fonts/bold.otf') format('opentype');
 }
 
 /* Fuente Italic */
 @font-face {
     font-family: 'Italic';
-    src: url('/fonts/RegularItalic.otf') format('opentype');
+    src: url('../fonts/RegularItalic.otf') format('opentype');
 }
 
 /* Fuente Bold Italic */
 @font-face {
     font-family: 'BoldItalic';
-    src: url('/fonts/BoldItalic.otf') format('opentype');
+    src: url('../fonts/BoldItalic.otf') format('opentype');
 }
 
 /* ------------------ BODY ------------------ */
@@ -29,7 +29,7 @@ body {
     padding: 0;
     font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
     /* Fondo */
-    background-image: url('/images/fondo.png');
+    background-image: url('../images/fondo.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -56,7 +56,7 @@ button {
 /* ------------------ Zona Imagen ------------------ */
 /* Div de la imagen a adivinar */
 #contenedor-imagen-adivinar {
-    margin: auto auto;
+    margin: auto;
     height: 375px;
     width: 375px;
     background-color: #333;
@@ -72,6 +72,22 @@ button {
 #imagen-adivinar {
     height: 175px;
 }
+
+/* ------------------ Zona Respuestas User ------------------ */
+/* Div de respuestas */
+#contenedor-respuestas {
+    margin: 20px auto;
+    height: auto;
+    width: 650px;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid greenyellow;
+    border-radius: 15px;
+    font-size: 20px; /* probablmenete borrar */
+}
+
 
 /* ------------------ Zona Adivinar ------------------ */
 /* Entrada de texto */
