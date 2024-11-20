@@ -25,7 +25,7 @@ function agrandar() {
     let botonAdivinar = document.getElementById('boton-adivinar');
     efectoAgrandarImagen(botonAdivinar, 1.05);
 }
-agrandar();
+window.onload = agrandar();
 
 /*
 * Cuando el mouse pasa por encima,la imagen
@@ -86,7 +86,7 @@ let ima=imagenes[im];
  */
 function agregarRespuesta() {
 
-    const resptUser = respuestaUsario.value.trim();
+    const resptUser = document.getElementById("entrada-respuesta").value.trim();
 
     if (resptUser != "") {
 
@@ -101,8 +101,10 @@ function agregarRespuesta() {
                 respuestas = [];
             }
 
-
             respuestas.push(resptUser);
+            localStorage.setItem("respuestas", JSON.stringify(respuestas));
+
+            resptUser.value = "";
         // }
     }
 }
@@ -115,11 +117,11 @@ function actualizarRespuestas() {
 
     let respuestas = localStorage.getItem("respuestas");
 
-    if(tareas){
-        tareas = JSON.parse(tareas);
+    if(respuestas){
+        respuestas = JSON.parse(respuestas);
 
     }else {
-        tareas = [];
+        respuestas = [];
     }
 
     const listaRespuestas = document.getElementById("entrada-respuesta");
@@ -144,6 +146,7 @@ function actualizarRespuestas() {
  */
 function botonAdivinar() {
     agregarRespuesta();
+    actualizarRespuestas();
     console.log("Respuesta del usuario:" + respuestaUsario);
 }
 

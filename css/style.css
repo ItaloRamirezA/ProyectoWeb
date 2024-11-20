@@ -5,6 +5,12 @@
     src: url('/fonts/Regular.otf') format('opentype');
 }
 
+/* Fuente Bold Italic */
+@font-face {
+    font-family: 'Bold';
+    src: url('/fonts/bold.otf') format('opentype');
+}
+
 /* Fuente Italic */
 @font-face {
     font-family: 'Italic';
