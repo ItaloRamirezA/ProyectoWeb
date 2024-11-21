@@ -1,9 +1,10 @@
-// ------------------ Variables Globales ------------------ //
+// ------------------ Inicio - Variables Globales ------------------ //
+
 // Map de las imagenes que saldrán al inicio
 let imagenes = new Array();
 
 // Almacena los intentos que tiene el usuario para adivinar.
-let contIntentos = 0;
+let contIntentos = Number(localStorage.getItem("contadorIntentos")) || 0;
 
 // Almacena el numero máximo de intentos.
 const MAXINTENTOS = 5;
@@ -16,6 +17,8 @@ let trozoDeimagenes = new Array();
 
 // Respuesta del usuario
 let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
+
+// ------------------ FIN - VARIABLES Globales ------------------ //
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
@@ -30,6 +33,7 @@ function agrandar() {
     let botonAdivinar = document.getElementById('boton-adivinar');
     efectoAgrandarImagen(botonAdivinar, 1.05);
 }
+
 window.onload = agrandar();
 
 /*
@@ -74,7 +78,7 @@ function elegirImagenRandom() {
     return imagenes[posImagenRandom]
 }
 
-// Este metodo sera el encarfgado de msotrar el trozo de iamgen aleatorio
+// Este metodo sera el encargado de msotrar el trozo de imagen aleatorio
 function mostrarImagen() {
     //va mal
     let contenedor = document.getElementById('contenedor-imagen-adivinar');
@@ -100,8 +104,6 @@ function mostrarImagen() {
     let fragmento = document.createElement('img');
     fragmento.src = selectedIMG[trozo];
     contenedor.appendChild(fragmento);
-
-
 }
 
 
@@ -113,8 +115,26 @@ function agregarRespuesta() {
 
     if (respuestaUsario != "") {
 
-        // while (contIntentos < MAXINTENTOS) {
+        if (respuestaUsario.toLowerCase() == "elefante") { // Aqui es donde se va a comparar con la respuesta correcta, por momento esta elefante como prueba
+            alert("Has acertado! El animal es un elefante.");
+            eliminarRespuestas();
+            contIntentos = 0;
+            localStorage.setItem("contadorIntentos", contIntentos);
+            return;
+        }
 
+        contIntentos++;
+        localStorage.setItem("contadorIntentos", contIntentos);
+
+        if (MAXINTENTOS <= contIntentos) {
+            alert("¡¡¡Has perdido!!!");
+            eliminarRespuestas();
+            contIntentos = 0;
+            localStorage.setItem("contadorIntentos", contIntentos);
+            return;
+        }
+
+        alert(`Has fallado. Intentelo de nuevo. Te quedan ${MAXINTENTOS - contIntentos} intentos.`);
         let respuestas = localStorage.getItem("respuestas");
 
         if (respuestas) {
@@ -126,11 +146,13 @@ function agregarRespuesta() {
 
         respuestas.push(respuestaUsario);
         localStorage.setItem("respuestas", JSON.stringify(respuestas));
-
+        localStorage.setItem("contadorIntentos", contIntentos);
+        actualizarRespuestas();
         respuestaUsario.value = "";
 
-        actualizarRespuestas();
-        // }
+    } else {
+        alert("No se puede enviar una respuesta vacía.");
+
     }
 }
 
@@ -158,11 +180,20 @@ function actualizarRespuestas() {
         let respuestaUser = respuestas[i];
 
         const li = document.createElement("li");
-        let respuestaUserSinEspacios = respuestaUser
         li.textContent = respuestaUser;
 
         listaRespuestas.appendChild(li);
     }
+}
+
+/**
+ * Función en la que elimina las respuestas del localStorage y de la lista de respuestas.
+ */
+function eliminarRespuestas() {
+
+    localStorage.removeItem("respuestas");
+    localStorage.removeItem("contadorIntentos");
+    actualizarRespuestas();
 }
 
 /**
@@ -177,10 +208,12 @@ function respuesta() {
  * Función que verifica si la respuesta es correcta
  */
 function botonAdivinar() {
-    agregarRespuesta();
+
     // Respuesta del usuario
     respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
-    console.log("Respuesta del usuario:" + respuestaUsario);
+    console.log("Respuesta Usario: " + respuestaUsario);
+    console.log("Contador: " + contIntentos);
+    agregarRespuesta();
 }
 
 window.onload = actualizarRespuestas();
