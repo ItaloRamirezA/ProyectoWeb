@@ -18,6 +18,8 @@ let trozoDeimagenes = new Array();
 // Respuesta del usuario
 let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
 
+// Mob aleatorio seleccionado
+let mobSeleccionado;
 // ------------------ FIN - VARIABLES Globales ------------------ //
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
@@ -57,28 +59,44 @@ function efectoAgrandarImagen(objetoImagen, escala) {
 * solo cuando el usuario entre por primera vez o despues de cerrar el navegador.
 */
 function rellenarArray() {
-    imagenes.push(["Ajolote", 'images/Ajolote/fila-1-columna-1.png', 'images/Ajolote/fila-1-columna-2.png', 'images/Ajolote/fila-2-columna-1.png', 'images/Ajolote/fila-2-columna-2.png']);
-    imagenes.push(["Cerdo", 'images/Cerdo/fila-1-columna-1.png', 'images/Cerdo/fila-1-columna-2.png', 'images/Cerdo/fila-2-columna-1.png', 'images/Cerdo/fila-2-columna-2.png']);
-    imagenes.push(["Esqueleto", 'images/Esqueleto/fila-1-columna-1.png', 'images/Esqueleto/fila-1-columna-2.png', 'images/Esqueleto/fila-2-columna-1.png', 'images/Esqueleto/fila-2-columna-2.png']);
-    imagenes.push(["EsqueletoWither", 'images/EsqueletoWither/fila-1-columna-1.png', 'images/EsqueletoWither/fila-1-columna-2.png', 'images/EsqueletoWither/fila-2-columna-1.png', 'images/EsqueletoWither/fila-2-columna-2.png']);
-    imagenes.push(["Gato", 'images/Gato/fila-1-columna-1.png', 'images/Gato/fila-1-columna-2.png', 'images/Gato/fila-2-columna-1.png', 'images/Gato/fila-2-columna-2.png']);
-    imagenes.push(["Ghast", 'images/Ghast/fila-1-columna-1.png', 'images/Ghast/fila-1-columna-2.png', 'images/Ghast/fila-2-columna-1.png', 'images/Ghast/fila-2-columna-2.png']);
-    imagenes.push(["Ocelote", 'images/Ocelote/fila-1-columna-1.png', 'images/Ocelote/fila-1-columna-2.png', 'images/Ocelote/fila-2-columna-1.png', 'images/Ocelote/fila-2-columna-2.png']);
-    imagenes.push(["PiglinBruto", 'images/PiglinBruto/fila-1-columna-1.png', 'images/PiglinBruto/fila-1-columna-2.png', 'images/PiglinBruto/fila-2-columna-1.png', 'images/PiglinBruto/fila-2-columna-2.png']);
-    imagenes.push(["Warden", 'images/Warden/fila-1-columna-1.png', 'images/Warden/fila-1-columna-2.png', 'images/Warden/fila-2-columna-1.png', 'images/Warden/fila-2-columna-2.png']);
-    imagenes.push(["Whiter", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png']);
-    imagenes.push(["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']);
+    imagenes = [
+        ["Ajolote", 'images/Ajolote/fila-1-columna-1.png', 'images/Ajolote/fila-1-columna-2.png', 'images/Ajolote/fila-2-columna-1.png', 'images/Ajolote/fila-2-columna-2.png'],
+        ["Cerdo", 'images/Cerdo/fila-1-columna-1.png', 'images/Cerdo/fila-1-columna-2.png', 'images/Cerdo/fila-2-columna-1.png', 'images/Cerdo/fila-2-columna-2.png'],
+        ["Esqueleto", 'images/Esqueleto/fila-1-columna-1.png', 'images/Esqueleto/fila-1-columna-2.png', 'images/Esqueleto/fila-2-columna-1.png', 'images/Esqueleto/fila-2-columna-2.png'],
+        ["EsqueletoWither", 'images/EsqueletoWither/fila-1-columna-1.png', 'images/EsqueletoWither/fila-1-columna-2.png', 'images/EsqueletoWither/fila-2-columna-1.png', 'images/EsqueletoWither/fila-2-columna-2.png'],
+        ["Gato", 'images/Gato/fila-1-columna-1.png', 'images/Gato/fila-1-columna-2.png', 'images/Gato/fila-2-columna-1.png', 'images/Gato/fila-2-columna-2.png'],
+        ["Ghast", 'images/Ghast/fila-1-columna-1.png', 'images/Ghast/fila-1-columna-2.png', 'images/Ghast/fila-2-columna-1.png', 'images/Ghast/fila-2-columna-2.png'],
+        ["Ocelote", 'images/Ocelote/fila-1-columna-1.png', 'images/Ocelote/fila-1-columna-2.png', 'images/Ocelote/fila-2-columna-1.png', 'images/Ocelote/fila-2-columna-2.png'],
+        ["PiglinBruto", 'images/PiglinBruto/fila-1-columna-1.png', 'images/PiglinBruto/fila-1-columna-2.png', 'images/PiglinBruto/fila-2-columna-1.png', 'images/PiglinBruto/fila-2-columna-2.png'],
+        ["Warden", 'images/Warden/fila-1-columna-1.png', 'images/Warden/fila-1-columna-2.png', 'images/Warden/fila-2-columna-1.png', 'images/Warden/fila-2-columna-2.png'],
+        ["Whiter", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png'],
+        ["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']
+    ];
 }
+
+/*
+* Apenas cargue la página:
+*    - Se rellena el array
+*    - Se selecciona el mob aleatoriamente
+*/
+window.onload = function () {
+    rellenarArray();
+    let mobSeleccionado = elegirImagenRandom();
+    console.log(mobSeleccionado); // Muestra el mob aleatorio seleccionado
+};
+
 
 /*
 * Función para elegir una imagen aleatoria al inciar la página.
 */
 function elegirImagenRandom() {
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
-    return imagenes[posImagenRandom]
+    return imagenes[posImagenRandom];
 }
 
-// Este metodo sera el encargado de msotrar el trozo de imagen aleatorio
+/*
+* Función que muestra el trozo de imagen aleatoria
+*/
 function mostrarImagen() {
     //va mal
     let contenedor = document.getElementById('contenedor-imagen-adivinar');
@@ -190,7 +208,6 @@ function actualizarRespuestas() {
  * Función en la que elimina las respuestas del localStorage y de la lista de respuestas.
  */
 function eliminarRespuestas() {
-
     localStorage.removeItem("respuestas");
     localStorage.removeItem("contadorIntentos");
     actualizarRespuestas();
@@ -200,8 +217,7 @@ function eliminarRespuestas() {
  * Función que devuelve la respuesta
  */
 function respuesta() {
-    let respuesta = imagenes[elegirImagenRandom()]
-    // TODO
+    let mobRespuesta = elegirImagenRandom()
 }
 
 /**
