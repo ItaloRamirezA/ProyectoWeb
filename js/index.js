@@ -1,5 +1,4 @@
 // ------------------ Inicio - Variables Globales ------------------ //
-localStorage.clear();
 // Map de las imagenes que saldrán al inicio
 let imagenes = new Array();
 
@@ -71,6 +70,7 @@ function rellenarArray() {
         ["Whiter", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png'],
         ["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']
     ];
+    // let arrayrelleno=localStorage.setItem("arraycomleto",JSON.stringify(imagenes));
 }
 
 /*
@@ -95,7 +95,6 @@ function mostrarImagen() {
     // Validar que el mob seleccionado esté definido
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
-
     }
 
     let trozo;
@@ -105,10 +104,14 @@ function mostrarImagen() {
         trozo = Math.floor(Math.random() * 4) + 1; // Índices de 1 a 4
     } while (trozoDeimagenes.includes(trozo));
 
+    
     // Registrar el trozo seleccionado en el array para evitar repeticiones
     trozoDeimagenes.push(trozo);
-    console.log(trozoDeimagenes.length);
-    
+
+    // Guardar la imagen en localStorage
+    const rutaImagen = mobSeleccionado[trozo];
+    guardarImagenEnLocalStorage(rutaImagen);
+
     // Crear un contenedor de filas si no existe aún
     let filaActual = document.getElementById(`fila-${Math.ceil(trozoDeimagenes.length / 2)}`);
     if (!filaActual) {
@@ -120,26 +123,67 @@ function mostrarImagen() {
 
     // Crear y mostrar la imagen
     const fragmento = document.createElement('img');
-    fragmento.src = mobSeleccionado[trozo]; // Usar la ruta de la imagen seleccionada
+    fragmento.src = rutaImagen; // Usar la ruta de la imagen seleccionada
     fragmento.alt = `Trozo de imagen ${trozo}`;
     fragmento.style.width = "75px";
     fragmento.style.margin = "5px";
-    fragmento.style.height = "auto"
-    // Agregar la imagen a la fila
+    fragmento.style.height = "auto";
     filaActual.appendChild(fragmento);
-
 }
+
 
 /*
 * Función que reinicia el juego 
 */
 function reiniciarJuego() {
-  trozoDeimagenes=[];
-  elegirImagenRandom();
-  const contenedor = document.getElementById('contenedor-imagen-adivinar');
-  contenedor="";
-  mostrarImagen();
+    trozoDeimagenes = [];
+    elegirImagenRandom();
+    document.getElementById('contenedor-imagen-adivinar').innerHTML="";
+    localStorage.removeItem("trozosImagen");
+    eliminarRespuestas();
+    mostrarImagen();
 }
+
+function guardarImagenEnLocalStorage(trozoImagen) {
+    let imagenesGuardadas = localStorage.getItem("trozosImagen");
+
+    if (imagenesGuardadas) {
+        imagenesGuardadas = JSON.parse(imagenesGuardadas);
+    } else {
+        imagenesGuardadas = [];
+    }
+
+    // Agregar la nueva imagen si no está repetida
+    if (!imagenesGuardadas.includes(trozoImagen)) {
+        imagenesGuardadas.push(trozoImagen);
+    }
+
+    localStorage.setItem("trozosImagen", JSON.stringify(imagenesGuardadas));
+}
+
+function mostrarImagenesGuardadas() {
+
+    let imagenesGuardadas = localStorage.getItem("trozosImagen");
+
+    if (imagenesGuardadas) {
+        imagenesGuardadas = JSON.parse(imagenesGuardadas);
+
+        const contenedor = document.getElementById('contenedor-imagen-adivinar');
+        contenedor.innerHTML = "";
+
+        // Crear y mostrar cada imagen almacenada
+        imagenesGuardadas.forEach((rutaImagen) => {
+            const fragmento = document.createElement('img');
+            fragmento.src = rutaImagen;
+            fragmento.alt = "Trozo de imagen guardada";
+            fragmento.style.width = "75px";
+            fragmento.style.margin = "5px";
+            fragmento.style.height = "auto";
+            contenedor.appendChild(fragmento);
+        });
+    }
+}
+
 
 /**
  * Función en la que se agrega la respuesta y
@@ -154,6 +198,7 @@ function agregarRespuesta() {
             eliminarRespuestas();
             contIntentos = 0;
             localStorage.setItem("contadorIntentos", contIntentos);
+            reiniciarJuego();
             return;
         }
 
@@ -161,11 +206,11 @@ function agregarRespuesta() {
         localStorage.setItem("contadorIntentos", contIntentos);
 
         if (MAXINTENTOS <= contIntentos) {
-            alert("¡¡¡Has perdido!!!");
+            alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
             eliminarRespuestas();
             contIntentos = 0;
             localStorage.setItem("contadorIntentos", contIntentos);
-            reiniciarJuego
+            reiniciarJuego();
             return;
         }
 
@@ -192,7 +237,7 @@ function agregarRespuesta() {
     }
 }
 
-/**Q
+/**
  * Función que actualiza la lista
  * de respuestas y crea debajo las respuestas introducidas.
  */
@@ -239,52 +284,45 @@ function eliminarRespuestas() {
  */
 function cambiarFondoConImagen() {
 
-    const fondoActual = document.body.style.backgroundImage;
-    const botonFondo = document.getElementById("btnCambioFondo");
-
-    const fondoDia = "url('images/fondo.png')";
-    const fondoNoche = "url('images/fondoNoche.png')";
+    const fondoDia = 'images/fondo.png';
+    const fondoNoche = 'images/fondoNoche.png';
 
     const imgbotonSol = "images/iconoSol.png";
     const imgbotonNoche = "images/iconoLuna.png";
 
+    const botonFondo = document.getElementById("btnCambioFondo");
+    const fondoActual = localStorage.getItem("fondo") || fondoDia;
 
-    if (fondoActual.includes("fondoNoche.png")) {
-        document.body.style.backgroundImage = fondoDia;
+    if (fondoActual === fondoNoche) {
+        document.body.style.backgroundImage = `url('${fondoDia}')`;
         botonFondo.src = imgbotonSol;
 
         localStorage.setItem("fondo", fondoDia);
         localStorage.setItem("icono", imgbotonSol);
-
-    } else { // Sale esta opción si el fondo actual es de dia, por lo cual se cambia el fondo a noche.
-        document.body.style.backgroundImage = fondoNoche;
+    } else {
+        document.body.style.backgroundImage = `url('${fondoNoche}')`;
         botonFondo.src = imgbotonNoche;
 
         localStorage.setItem("fondo", fondoNoche);
         localStorage.setItem("icono", imgbotonNoche);
     }
-
-    console.log(document.body.style.backgroundImage);
-    console.log(document.getElementById("btnCambioFondo").src);
-
 }
 
+/**
+ * Función en la que obtenmos el estado del fondo y la imagen/botón.
+ */
 function actualizarFondoConImagen() {
 
     const fondoGuardado = localStorage.getItem("fondo");
     const iconoGuardado = localStorage.getItem("icono");
 
     if (fondoGuardado) {
-        document.body.style.backgroundImage = fondoGuardado;
+        document.body.style.backgroundImage = `url('${fondoGuardado}')`;
     }
 
     if (iconoGuardado) {
         document.getElementById("btnCambioFondo").src = iconoGuardado;
     }
-
-    console.log(localStorage.getItem("fondo"));
-    console.log(localStorage.getItem("icono"));
-
 }
 
 /**
@@ -317,21 +355,18 @@ function botonAdivinar() {
 */
 window.onload = function () {
 
-    // Rellena el array con los trozos y nombre de los mobs
+    actualizarFondoConImagen();
+
     rellenarArray();
     elegirImagenRandom();
 
-    console.log(mobSeleccionado); // Muestra el mob aleatorio seleccionado
-    mostrarImagen();
+    console.log(mobSeleccionado);
+    mostrarImagenesGuardadas(); 
 
     actualizarRespuestas();
     agrandar();
 
-    cambiarFondoConImagen();
-
     // Boton para modo oscuro/claro
     document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
-
 };
-
 // ------------------ FIN - LLAMADA FUNCIONES ------------------ //
