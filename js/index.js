@@ -62,11 +62,11 @@ function rellenarArray() {
         ["Ajolote", 'images/Ajolote/fila-1-columna-1.png', 'images/Ajolote/fila-1-columna-2.png', 'images/Ajolote/fila-2-columna-1.png', 'images/Ajolote/fila-2-columna-2.png'],
         ["Cerdo", 'images/Cerdo/fila-1-columna-1.png', 'images/Cerdo/fila-1-columna-2.png', 'images/Cerdo/fila-2-columna-1.png', 'images/Cerdo/fila-2-columna-2.png'],
         ["Esqueleto", 'images/Esqueleto/fila-1-columna-1.png', 'images/Esqueleto/fila-1-columna-2.png', 'images/Esqueleto/fila-2-columna-1.png', 'images/Esqueleto/fila-2-columna-2.png'],
-        ["EsqueletoWither", 'images/EsqueletoWither/fila-1-columna-1.png', 'images/EsqueletoWither/fila-1-columna-2.png', 'images/EsqueletoWither/fila-2-columna-1.png', 'images/EsqueletoWither/fila-2-columna-2.png'],
+        ["Esqueleto Wither", 'images/EsqueletoWither/fila-1-columna-1.png', 'images/EsqueletoWither/fila-1-columna-2.png', 'images/EsqueletoWither/fila-2-columna-1.png', 'images/EsqueletoWither/fila-2-columna-2.png'],
         ["Gato", 'images/Gato/fila-1-columna-1.png', 'images/Gato/fila-1-columna-2.png', 'images/Gato/fila-2-columna-1.png', 'images/Gato/fila-2-columna-2.png'],
         ["Ghast", 'images/Ghast/fila-1-columna-1.png', 'images/Ghast/fila-1-columna-2.png', 'images/Ghast/fila-2-columna-1.png', 'images/Ghast/fila-2-columna-2.png'],
         ["Ocelote", 'images/Ocelote/fila-1-columna-1.png', 'images/Ocelote/fila-1-columna-2.png', 'images/Ocelote/fila-2-columna-1.png', 'images/Ocelote/fila-2-columna-2.png'],
-        ["PiglinBruto", 'images/PiglinBruto/fila-1-columna-1.png', 'images/PiglinBruto/fila-1-columna-2.png', 'images/PiglinBruto/fila-2-columna-1.png', 'images/PiglinBruto/fila-2-columna-2.png'],
+        ["Piglin Bruto", 'images/PiglinBruto/fila-1-columna-1.png', 'images/PiglinBruto/fila-1-columna-2.png', 'images/PiglinBruto/fila-2-columna-1.png', 'images/PiglinBruto/fila-2-columna-2.png'],
         ["Warden", 'images/Warden/fila-1-columna-1.png', 'images/Warden/fila-1-columna-2.png', 'images/Warden/fila-2-columna-1.png', 'images/Warden/fila-2-columna-2.png'],
         ["Whiter", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png'],
         ["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']
@@ -91,7 +91,7 @@ function elegirImagenRandom() {
 */
 function mostrarImagen() {
     const contenedor = document.getElementById('contenedor-imagen-adivinar');
-   
+
     // Validar que el mob seleccionado esté definido
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
@@ -123,14 +123,18 @@ function mostrarImagen() {
     fragmento.alt = `Trozo de imagen ${trozo}`;
     fragmento.style.width = "75px";
     fragmento.style.margin = "5px";
-    fragmento.style.height="auto"
+    fragmento.style.height = "auto"
     // Agregar la imagen a la fila
     filaActual.appendChild(fragmento);
 
-
 }
 
-
+/*
+* Función que borra las iamgenes cuando se terminen tus intentos
+*/
+function borrarImagenes() {
+    mobSeleccionado.clear();
+}
 
 /**
  * Función en la que se agrega la respuesta y
@@ -140,8 +144,8 @@ function agregarRespuesta() {
 
     if (respuestaUsario != "") {
 
-        if (respuestaUsario.toLowerCase() == "elefante") { // Aqui es donde se va a comparar con la respuesta correcta, por momento esta elefante como prueba
-            alert("Has acertado! El animal es un elefante.");
+        if (respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) { // Aqui es donde se va a comparar con la respuesta correcta, por momento esta elefante como prueba
+            alert(`¡Has acertado! El mob es ${mobSeleccionado[0]}.`);
             eliminarRespuestas();
             contIntentos = 0;
             localStorage.setItem("contadorIntentos", contIntentos);
