@@ -95,14 +95,14 @@ function elegirImagenRandom() {
 */
 function mostrarImagen() {
     const contenedor = document.getElementById('contenedor-imagen-adivinar');
-
+    if(trozoDeimagenes.length==0){
+        contenedor=""; 
+    }
     // Validar que el mob seleccionado esté definido
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
     
     }
-
- 
 
     let trozo;
 
