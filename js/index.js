@@ -1,5 +1,5 @@
 // ------------------ Inicio - Variables Globales ------------------ //
-
+localStorage.clear();
 // Map de las imagenes que saldrán al inicio
 let imagenes = new Array();
 
