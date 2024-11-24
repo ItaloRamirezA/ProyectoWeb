@@ -73,21 +73,17 @@ function rellenarArray() {
     ];
 }
 
-
-
-
-
 /*
 * Función para elegir una imagen aleatoria al inciar la página.
 */
 function elegirImagenRandom() {
-    if(imagenes.length==0){
+    if (imagenes.length == 0) {
         rellenarArray();
     }
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
-     // Guarda el mob seleccionado globalmente
+    // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
-    trozoDeimagenes=mobSeleccionado;
+    trozoDeimagenes = mobSeleccionado;
 }
 
 /*
@@ -95,13 +91,13 @@ function elegirImagenRandom() {
 */
 function mostrarImagen() {
     const contenedor = document.getElementById('contenedor-imagen-adivinar');
-    if(trozoDeimagenes.length==0){
-        contenedor=""; 
+    if (trozoDeimagenes.length == 0) {
+        contenedor = "";
     }
     // Validar que el mob seleccionado esté definido
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
-    
+
     }
 
     let trozo;
@@ -133,7 +129,7 @@ function mostrarImagen() {
     // Agregar la imagen a la fila
     filaActual.appendChild(fragmento);
 
-  
+
 }
 
 
@@ -259,6 +255,28 @@ function cambiarFondoConImagen() {
         localStorage.setItem("fondo", fondoNoche);
         localStorage.setItem("icono", imgbotonNoche);
     }
+
+    console.log(document.body.style.backgroundImage);
+    console.log(document.getElementById("btnCambioFondo").src);
+
+}
+
+function actualizarFondoConImagen() {
+
+    const fondoGuardado = localStorage.getItem("fondo");
+    const iconoGuardado = localStorage.getItem("icono");
+
+    if (fondoGuardado) {
+        document.body.style.backgroundImage = fondoGuardado;
+    }
+
+    if (iconoGuardado) {
+        document.getElementById("btnCambioFondo").src = iconoGuardado;
+    }
+
+    console.log(localStorage.getItem("fondo"));
+    console.log(localStorage.getItem("icono"));
+
 }
 
 /**
@@ -290,6 +308,7 @@ function botonAdivinar() {
 *    - Se selecciona el mob aleatoriamente
 */
 window.onload = function () {
+
     // Rellena el array con los trozos y nombre de los mobs
     rellenarArray();
     elegirImagenRandom();
@@ -299,9 +318,12 @@ window.onload = function () {
 
     actualizarRespuestas();
     agrandar();
+
     cambiarFondoConImagen();
-    
+
     // Boton para modo oscuro/claro
     document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
+
 };
+
 // ------------------ FIN - LLAMADA FUNCIONES ------------------ //
