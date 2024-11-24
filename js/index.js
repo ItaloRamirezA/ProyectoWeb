@@ -91,9 +91,7 @@ function elegirImagenRandom() {
 */
 function mostrarImagen() {
     const contenedor = document.getElementById('contenedor-imagen-adivinar');
-    if (trozoDeimagenes.length == 0) {
-        contenedor = "";
-    }
+   
     // Validar que el mob seleccionado esté definido
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
@@ -123,9 +121,9 @@ function mostrarImagen() {
     const fragmento = document.createElement('img');
     fragmento.src = mobSeleccionado[trozo]; // Usar la ruta de la imagen seleccionada
     fragmento.alt = `Trozo de imagen ${trozo}`;
-    fragmento.style.width = "100px";
+    fragmento.style.width = "75px";
     fragmento.style.margin = "5px";
-
+    fragmento.style.height="auto"
     // Agregar la imagen a la fila
     filaActual.appendChild(fragmento);
 
