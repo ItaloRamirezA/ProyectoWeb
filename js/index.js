@@ -36,8 +36,6 @@ function agrandar() {
     efectoAgrandarImagen(botonAdivinar, 1.05);
 }
 
-window.onload = agrandar();
-
 /*
 * Cuando el mouse pasa por encima,la imagen
 * se agranda y cuando sale vuelve a su tamano
@@ -206,11 +204,43 @@ function actualizarRespuestas() {
 
 /**
  * Función en la que elimina las respuestas del localStorage y de la lista de respuestas.
+ * Tambíen elimina el contador de intentos.
  */
 function eliminarRespuestas() {
     localStorage.removeItem("respuestas");
     localStorage.removeItem("contadorIntentos");
     actualizarRespuestas();
+}
+
+/**
+ * Función para cambiar el fondo y la imagen/boton y guardar el estado del fondo e imagen en localStorage.
+ */
+function cambiarFondoConImagen() {
+
+    const fondoActual = document.body.style.backgroundImage;
+    const botonFondo = document.getElementById("btnCambioFondo");
+
+    const fondoDia = "url('images/fondo.png')";
+    const fondoNoche = "url('images/fondoNoche.png')";
+
+    const imgbotonSol = "images/iconoSol.png";
+    const imgbotonNoche = "images/iconoLuna.png";
+
+
+    if (fondoActual.includes("fondoNoche.png")) {
+        document.body.style.backgroundImage = fondoDia;
+        botonFondo.src = imgbotonSol;
+
+        localStorage.setItem("fondo", fondoDia);
+        localStorage.setItem("icono", imgbotonSol);
+
+    } else { // Sale esta opción si el fondo actual es de dia, por lo cual se cambia el fondo a noche.
+        document.body.style.backgroundImage = fondoNoche;
+        botonFondo.src = imgbotonNoche;
+
+        localStorage.setItem("fondo", fondoNoche);
+        localStorage.setItem("icono", imgbotonNoche);
+    }
 }
 
 /**
@@ -232,5 +262,14 @@ function botonAdivinar() {
     agregarRespuesta();
 }
 
-window.onload = actualizarRespuestas();
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
+
+
+// ------------------ INICIO - LLAMADA FUNCIONES ------------------ //
+
+window.onload = actualizarRespuestas();
+window.onload = agrandar();
+window.onload = cambiarFondoConImagen();
+document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
+
+// ------------------ FIN - LLAMADA FUNCIONES ------------------ //
