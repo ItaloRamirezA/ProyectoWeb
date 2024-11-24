@@ -107,7 +107,8 @@ function mostrarImagen() {
 
     // Registrar el trozo seleccionado en el array para evitar repeticiones
     trozoDeimagenes.push(trozo);
-
+    console.log(trozoDeimagenes.length);
+    
     // Crear un contenedor de filas si no existe aún
     let filaActual = document.getElementById(`fila-${Math.ceil(trozoDeimagenes.length / 2)}`);
     if (!filaActual) {
@@ -130,10 +131,14 @@ function mostrarImagen() {
 }
 
 /*
-* Función que borra las iamgenes cuando se terminen tus intentos
+* Función que reinicia el juego 
 */
-function borrarImagenes() {
-    mobSeleccionado.clear();
+function reiniciarJuego() {
+  trozoDeimagenes=[];
+  elegirImagenRandom();
+  const contenedor = document.getElementById('contenedor-imagen-adivinar');
+  contenedor="";
+  mostrarImagen();
 }
 
 /**
@@ -160,6 +165,7 @@ function agregarRespuesta() {
             eliminarRespuestas();
             contIntentos = 0;
             localStorage.setItem("contadorIntentos", contIntentos);
+            reiniciarJuego
             return;
         }
 
