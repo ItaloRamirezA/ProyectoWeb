@@ -94,36 +94,49 @@ function elegirImagenRandom() {
 * Función que muestra el trozo de imagen aleatoria
 */
 function mostrarImagen() {
-    //va mal
-    let contenedor = document.getElementById('contenedor-imagen-adivinar');
+    const contenedor = document.getElementById('contenedor-imagen-adivinar');
 
+    // Validar que el mob seleccionado esté definido
+    if (!mobSeleccionado || mobSeleccionado.length === 0) {
+        elegirImagenRandom();
+    
+    }
 
-    // Seleccionar imagen aleatoria
+ 
+
     let trozo;
 
-    // Continuar seleccionando un trozo hasta que sea uno no utilizado
+    // Seleccionar un trozo aleatorio que no haya sido utilizado
     do {
-    //entre 1 y 4 
-        trozo = Math.floor(Math.random() * (4)) + 1;
+        trozo = Math.floor(Math.random() * 4) + 1; // Índices de 1 a 4
     } while (trozoDeimagenes.includes(trozo));
 
-    // Registrar el número del trozo seleccionado en el arreglo
+    // Registrar el trozo seleccionado en el array para evitar repeticiones
     trozoDeimagenes.push(trozo);
-    console.log(trozoDeimagenes.length);
-    
-    console.log(trozoDeimagenes);
-    // Crear y mostrar el trozo de imagen
-    let fragmento = document.createElement('img');
-    fragmento.src = mobSeleccionado[trozo];
+
+    // Crear un contenedor de filas si no existe aún
+    let filaActual = document.getElementById(`fila-${Math.ceil(trozoDeimagenes.length / 2)}`);
+    if (!filaActual) {
+        filaActual = document.createElement('div');
+        filaActual.id = `fila-${Math.ceil(trozoDeimagenes.length / 2)}`;
+        filaActual.className = 'fila-imagenes';
+        contenedor.appendChild(filaActual);
+    }
+
+    // Crear y mostrar la imagen
+    const fragmento = document.createElement('img');
+    fragmento.src = mobSeleccionado[trozo]; // Usar la ruta de la imagen seleccionada
     fragmento.alt = `Trozo de imagen ${trozo}`;
-    contenedor.appendChild(fragmento);
+    fragmento.style.width = "100px";
+    fragmento.style.margin = "5px";
+
+    // Agregar la imagen a la fila
+    filaActual.appendChild(fragmento);
+
+  
 }
 
-/*
-Pruebas
-*/
-rellenarArray();
-mostrarImagen();
+
 
 /**
  * Función en la que se agrega la respuesta y
@@ -153,6 +166,7 @@ function agregarRespuesta() {
         }
 
         alert(`Has fallado. Intentelo de nuevo. Te quedan ${MAXINTENTOS - contIntentos} intentos.`);
+        mostrarImagen();
         let respuestas = localStorage.getItem("respuestas");
 
         if (respuestas) {
@@ -174,7 +188,7 @@ function agregarRespuesta() {
     }
 }
 
-/**
+/**Q
  * Función que actualiza la lista
  * de respuestas y crea debajo las respuestas introducidas.
  */
@@ -278,8 +292,8 @@ function botonAdivinar() {
 window.onload = function () {
     // Rellena el array con los trozos y nombre de los mobs
     rellenarArray();
-    
-    let mobSeleccionado = elegirImagenRandom();
+    elegirImagenRandom();
+
     console.log(mobSeleccionado); // Muestra el mob aleatorio seleccionado
     mostrarImagen();
 
