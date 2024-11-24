@@ -73,17 +73,7 @@ function rellenarArray() {
     ];
 }
 
-/*
-* Apenas cargue la página:
-*    - Se rellena el array
-*    - Se selecciona el mob aleatoriamente
-*/
-window.onload = function () {
-    rellenarArray();
-    let mobSeleccionado = elegirImagenRandom();
-    console.log(mobSeleccionado); // Muestra el mob aleatorio seleccionado
-    mostrarImagen();
-};
+
 
 
 
@@ -94,16 +84,10 @@ function elegirImagenRandom() {
     if(imagenes.length==0){
         rellenarArray();
     }
- function elegirImagenRandom() {
-    if (imagenes.length === 0) {
-        rellenarArray();
-    }
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
      // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
-    return mobSeleccionado;
-}
-
+    trozoDeimagenes=mobSeleccionado;
 }
 
 /*
@@ -112,24 +96,22 @@ function elegirImagenRandom() {
 function mostrarImagen() {
     //va mal
     let contenedor = document.getElementById('contenedor-imagen-adivinar');
-    contenedor.innerHTML = ''; // Limpiar el contenedor
 
-    let selectedIMG = elegirImagenRandom(); // Seleccionar imagen aleatoria
+
+    // Seleccionar imagen aleatoria
     let trozo;
 
     // Continuar seleccionando un trozo hasta que sea uno no utilizado
     do {
-        trozo = Math.floor(Math.random() * (mobSeleccionado.length - 1)) + 1;
+    //entre 1 y 4 
+        trozo = Math.floor(Math.random() * (4)) + 1;
     } while (trozoDeimagenes.includes(trozo));
 
     // Registrar el número del trozo seleccionado en el arreglo
     trozoDeimagenes.push(trozo);
-
-    // Verificar si ya se han usado todos los trozos
-    if (trozoDeimagenes.length >= 4) {
-        console.log("Se usaron todos los trozos de la imagen.");
-    }
-
+    console.log(trozoDeimagenes.length);
+    
+    console.log(trozoDeimagenes);
     // Crear y mostrar el trozo de imagen
     let fragmento = document.createElement('img');
     fragmento.src = mobSeleccionado[trozo];
@@ -137,6 +119,11 @@ function mostrarImagen() {
     contenedor.appendChild(fragmento);
 }
 
+/*
+Pruebas
+*/
+rellenarArray();
+mostrarImagen();
 
 /**
  * Función en la que se agrega la respuesta y
@@ -218,7 +205,8 @@ function actualizarRespuestas() {
 }
 
 /**
- * Función en la que elimina las respuestas del localStorage y de la lista de respuestas.
+ * Función en la que elimina las respuestas
+ * del localStorage y de la lista de respuestas.
  * Tambíen elimina el contador de intentos.
  */
 function eliminarRespuestas() {
@@ -282,10 +270,24 @@ function botonAdivinar() {
 
 
 // ------------------ INICIO - LLAMADA FUNCIONES ------------------ //
+/*
+* Apenas cargue la página:
+*    - Se rellena el array
+*    - Se selecciona el mob aleatoriamente
+*/
+window.onload = function () {
+    // Rellena el array con los trozos y nombre de los mobs
+    rellenarArray();
+    
+    let mobSeleccionado = elegirImagenRandom();
+    console.log(mobSeleccionado); // Muestra el mob aleatorio seleccionado
+    mostrarImagen();
 
-window.onload = actualizarRespuestas();
-window.onload = agrandar();
-window.onload = cambiarFondoConImagen();
-document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
-
+    actualizarRespuestas();
+    agrandar();
+    cambiarFondoConImagen();
+    
+    // Boton para modo oscuro/claro
+    document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
+};
 // ------------------ FIN - LLAMADA FUNCIONES ------------------ //
