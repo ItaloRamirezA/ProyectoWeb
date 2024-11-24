@@ -49,6 +49,7 @@ function efectoAgrandarImagen(objetoImagen, escala) {
     });
 }
 
+
 // ------------------ FIN - FUNCIONES DE DETALLES ------------------ //
 
 // ------------------ INICIO - FUNCIONES UTILES ------------------ //
@@ -81,15 +82,28 @@ window.onload = function () {
     rellenarArray();
     let mobSeleccionado = elegirImagenRandom();
     console.log(mobSeleccionado); // Muestra el mob aleatorio seleccionado
+    mostrarImagen();
 };
+
 
 
 /*
 * Función para elegir una imagen aleatoria al inciar la página.
 */
 function elegirImagenRandom() {
+    if(imagenes.length==0){
+        rellenarArray();
+    }
+ function elegirImagenRandom() {
+    if (imagenes.length === 0) {
+        rellenarArray();
+    }
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
-    return imagenes[posImagenRandom];
+     // Guarda el mob seleccionado globalmente
+    mobSeleccionado = imagenes[posImagenRandom];
+    return mobSeleccionado;
+}
+
 }
 
 /*
@@ -105,7 +119,7 @@ function mostrarImagen() {
 
     // Continuar seleccionando un trozo hasta que sea uno no utilizado
     do {
-        trozo = Math.floor(Math.random() * (selectedIMG.length - 1)) + 1; // Índices de trozos van del 1 al tamaño del arreglo
+        trozo = Math.floor(Math.random() * (mobSeleccionado.length - 1)) + 1;
     } while (trozoDeimagenes.includes(trozo));
 
     // Registrar el número del trozo seleccionado en el arreglo
@@ -113,12 +127,13 @@ function mostrarImagen() {
 
     // Verificar si ya se han usado todos los trozos
     if (trozoDeimagenes.length >= 4) {
-        console.log("out"); // Mostrar mensaje en la consola
+        console.log("Se usaron todos los trozos de la imagen.");
     }
 
     // Crear y mostrar el trozo de imagen
     let fragmento = document.createElement('img');
-    fragmento.src = selectedIMG[trozo];
+    fragmento.src = mobSeleccionado[trozo];
+    fragmento.alt = `Trozo de imagen ${trozo}`;
     contenedor.appendChild(fragmento);
 }
 
@@ -213,7 +228,8 @@ function eliminarRespuestas() {
 }
 
 /**
- * Función para cambiar el fondo y la imagen/boton y guardar el estado del fondo e imagen en localStorage.
+ * Función para cambiar el fondo y la imagen/boton y guardar
+ * el estado del fondo e imagen en localStorage.
  */
 function cambiarFondoConImagen() {
 
