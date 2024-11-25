@@ -8,13 +8,13 @@ let contIntentos = Number(localStorage.getItem("contadorIntentos")) || 0;
 // Almacena el numero máximo de intentos.
 const MAXINTENTOS = 4;
 
-// Almacena la posición de la imagen random
+// Almacena la posición en el array de la imagen random
 let posImagenRandom;
 
-//Array que contendra los numeros de los trozos de imagenes que ya se han usado para no repetirlos
+//Array para los numeros de los trozos de imagenes que ya se han usado para no repetirlos
 let trozoDeimagenes = new Array();
 
-// Respuesta del usuario
+// Respuesta del usuario en el 
 let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
 
 // Mob aleatorio seleccionado
@@ -398,6 +398,7 @@ function limpiarLocalStorage() {
 *    - Se selecciona el mob aleatoriamente
 */
 window.onload = function () {
+    reiniciarJuego();
     actualizarFondoConImagen();
 
     rellenarArray();
