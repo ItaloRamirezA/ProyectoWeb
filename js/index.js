@@ -30,9 +30,13 @@ function agrandar() {
     let logo = document.getElementById('logo-footer');
     efectoAgrandarImagen(logo, 1.15);
 
-    // Logo del boton de adivinar
+    // Boton de adivinar
     let botonAdivinar = document.getElementById('boton-adivinar');
     efectoAgrandarImagen(botonAdivinar, 1.05);
+
+    // Boton de reiniciar
+    let botonReiniciar = document.getElementById('boton-reiniciar');
+    efectoAgrandarImagen(botonReiniciar, 1.05);
 }
 
 /*
@@ -133,7 +137,7 @@ function mostrarImagen() {
 
 
 /*
-* Función que reinicia el juego 
+* Función que reinicia el juego borrando todo
 */
 function reiniciarJuego() {
     trozoDeimagenes = [];
@@ -372,6 +376,12 @@ function botonAdivinar() {
     agregarRespuesta();
 }
 
+/**
+ * Limpia todo el localStorage
+ */
+function limpiarLocalStorage() {
+    localStorage.clear();
+}
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
 
 

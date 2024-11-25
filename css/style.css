@@ -114,13 +114,26 @@ button {
     font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 }
 
-/* Boton enviar */
+/* Boton Adivinar */
 #boton-adivinar {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 120%;
     background-color: greenyellow;
-    border-radius: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+}
+
+/* Boton reiniciar */
+#boton-reiniciar {
+    width: 70%;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 120%;
+    background-color: rgb(228, 57, 57);
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
     border: none;
