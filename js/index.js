@@ -318,10 +318,14 @@ function actualizarFondoConImagen() {
 
     if (fondoGuardado) {
         document.body.style.backgroundImage = `url('${fondoGuardado}')`;
+    }else{
+           document.body.style.backgroundImage = `url('images/fondo.png')`
     }
 
     if (iconoGuardado) {
         document.getElementById("btnCambioFondo").src = iconoGuardado;
+    }else{
+        document.getElementById("btnCambioFondo").src ='images/iconoSol.png';
     }
 }
 
