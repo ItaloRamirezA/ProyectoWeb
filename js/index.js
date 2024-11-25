@@ -398,14 +398,22 @@ function limpiarLocalStorage() {
 *    - Se selecciona el mob aleatoriamente
 */
 window.onload = function () {
-    reiniciarJuego();
     actualizarFondoConImagen();
-
-    rellenarArray();
-    elegirImagenRandom();
-
-    console.log(mobSeleccionado);
-    mostrarImagenesGuardadas(); 
+    // TODO
+    // TODO
+    // TODO
+    // TODO
+    // TODO
+    // Verificar si el localStorage de imágenes está vacío
+    let imagenesGuardadas = localStorage.getItem("trozosImagen");
+    if (!imagenesGuardadas || JSON.parse(imagenesGuardadas).length === 0) {
+        console.log("LocalStorage vacío, seleccionando mob y mostrando trozo inicial");
+        elegirImagenRandom(); // Selecciona el mob una sola vez si está vacío
+        mostrarImagen(); // Muestra el primer trozo
+    } else {
+        console.log("Cargando imágenes guardadas del localStorage");
+        mostrarImagenesGuardadas(); // Carga los trozos ya guardados
+    }
 
     actualizarRespuestas();
     agrandar();
