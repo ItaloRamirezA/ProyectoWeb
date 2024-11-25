@@ -103,9 +103,10 @@ function mostrarImagen() {
 
     let trozo;
 
-    // Seleccionar un trozo aleatorio que no haya sido utilizado
+    // Seleccionar un trozo random que no se haya usado
     do {
-        trozo = Math.floor(Math.random() * 4) + 1; // Índices de 1 a 4
+         // Indices de 1 a 4
+        trozo = Math.floor(Math.random() * 4) + 1;
     } while (trozoDeimagenes.includes(trozo));
 
     
@@ -148,6 +149,10 @@ function reiniciarJuego() {
     mostrarImagen();
 }
 
+
+/*
+* Función que guarda las imágenes en el localStorage
+*/
 function guardarImagenEnLocalStorage(trozoImagen) {
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
@@ -165,8 +170,10 @@ function guardarImagenEnLocalStorage(trozoImagen) {
     localStorage.setItem("trozosImagen", JSON.stringify(imagenesGuardadas));
 }
 
+/*
+* Función que muestras las imágenes guardadas en el localStorage
+*/
 function mostrarImagenesGuardadas() {
-
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
     if (imagenesGuardadas) {
@@ -187,7 +194,6 @@ function mostrarImagenesGuardadas() {
         });
     }
 }
-
 
 /**
  * Función en la que se agrega la respuesta y
@@ -392,7 +398,6 @@ function limpiarLocalStorage() {
 *    - Se selecciona el mob aleatoriamente
 */
 window.onload = function () {
-
     actualizarFondoConImagen();
 
     rellenarArray();
