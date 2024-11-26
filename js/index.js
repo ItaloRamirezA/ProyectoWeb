@@ -96,7 +96,7 @@ function elegirImagenRandom() {
 }
 
 /*
-* Función que muestra el trozo de imagen aleatoria
+* Función que muestra el trozo de imagen aleatoria en el div
 */
 function mostrarImagen() {
     // Recuadro central de imágenes
@@ -128,18 +128,28 @@ function mostrarImagen() {
     // Guardar la imagen en localStorage
     guardarImagenEnLocalStorage(rutaImagen);
 
-    // Crear y mostrar la imagen directamente en el contenedor principal
+    // Crear un contenedor de filas si no existe aún
+    let filaActual = document.getElementById(`fila-${Math.ceil(trozosUsados.length / 2)}`);
+    if (!filaActual) {
+        filaActual = document.createElement('div');
+        filaActual.id = `fila-${Math.ceil(trozosUsados.length / 2)}`;
+        filaActual.className = 'fila-imagenes';
+        contenedor.appendChild(filaActual);
+    }
+
+    // Crear y mostrar la imagen
     const fragmento = document.createElement('img');
     fragmento.src = rutaImagen;
+    fragmento.alt = `Trozo de imagen ${trozo}`;
     fragmento.style.width = "75px";
     fragmento.style.margin = "5px";
     fragmento.style.height = "auto";
-    contenedor.appendChild(fragmento);
-    }
+    filaActual.appendChild(fragmento);
+}
 
 
 /*
-* Función que reinicia el juego borrando todo
+* Función que reinicia el juego
 */
 function reiniciarJuego() {
     contIntentos = 0;
@@ -154,9 +164,10 @@ function reiniciarJuego() {
 
 
 /*
-* Función que guarda las imágenes en el localStorage
+* Función que guarda los trozos de iamgen en el localStorage
 */
 function guardarImagenEnLocalStorage(trozoImagen) {
+    // Guarda los trozos
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
     if (imagenesGuardadas) {
@@ -170,6 +181,7 @@ function guardarImagenEnLocalStorage(trozoImagen) {
         imagenesGuardadas.push(trozoImagen);
     }
 
+    // Guarda el array en el localStorage
     localStorage.setItem("trozosImagen", JSON.stringify(imagenesGuardadas));
 }
 
@@ -177,24 +189,26 @@ function guardarImagenEnLocalStorage(trozoImagen) {
 * Función que muestras las imágenes guardadas en el localStorage
 */
 function mostrarImagenesGuardadas() {
-
+    // Obtiene los trozos guardados en el localStorage
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
+    // Si hay imágenes guardadas en el localStorage
     if (imagenesGuardadas) {
+        // Obtiene el array del localStorage
         imagenesGuardadas = JSON.parse(imagenesGuardadas);
-
+        
+        // Div donde se muestran las imagenes
         const contenedor = document.getElementById('contenedor-imagen-adivinar');
         contenedor.innerHTML = "";
 
-        // Crear y mostrar cada imagen almacenada
+        // Recorre el array y va agregando los trozos del localStorage al div
         imagenesGuardadas.forEach((rutaImagen) => {
-            const fragmento = document.createElement('img');
-            fragmento.src = rutaImagen;
-            fragmento.alt = "Trozo de imagen guardada";
-            fragmento.style.width = "75px";
-            fragmento.style.margin = "5px";
-            fragmento.style.height = "auto";
-            contenedor.appendChild(fragmento);
+            const trozoNuevo = document.createElement('img');
+            trozoNuevo.src = rutaImagen;
+            trozoNuevo.style.width = "75px";
+            trozoNuevo.style.margin = "5px";
+            trozoNuevo.style.height = "auto";
+            contenedor.appendChild(trozoNuevo);
         });
     }
 }
@@ -207,7 +221,7 @@ function guardarContadorLocalStorage() {
 }
 
 /**
- * Función en la que se agrega la respuesta y
+ * Función que agrega la respuesta y
  * las guarda en localStorage.
  * 
  * Verifica si el usuario ha ganado
@@ -217,12 +231,13 @@ function agregarRespuesta() {
     // Solo entra si hay respuesta del usuario
     if (respuestaUsario != "") {
 
-        // Veririfica que la respuesta del usuario sea igual al mob seleccionado y reinicia el juego
+        // Veririfica que la respuesta del usuario sea igual al mob seleccionado (ganó) y reinicia el juego
         if (respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) {
             alert(`¡Has acertado! El mob es ${mobSeleccionado[0]}`);
             reiniciarJuego();
             return;
         } else {
+            // Si no acierta, los intentos aumentan y hay que volver a guardar el contador en el localStorage
             contIntentos++;
             guardarContadorLocalStorage();
         }
@@ -239,24 +254,23 @@ function agregarRespuesta() {
 
         // Si no ha ganado ni perdido, es porque falló y puede seguir intentando
         alert(`Has fallado. Te quedan ${MAXINTENTOS - contIntentos} intentos`);
-
+        // Agrega un trozo si has fallado
         mostrarImagen();
-
+        
+        // Si hay respuestas del usuario en el localStorage, se cargarn
         let respuestas = localStorage.getItem("respuestas");
-     
-
         if (respuestas) {
             respuestas = JSON.parse(respuestas);
         } else {
             respuestas = [];
         }
 
+        // Va agregando las respuestas del usuario al array de respuestas
         respuestas.push(respuestaUsario);
 
+        // Guarda en localStorage el array, el contador y actualiza las respuestas fallidas
         localStorage.setItem("respuestas", JSON.stringify(respuestas));
-
         guardarContadorLocalStorage();
-
         actualizarRespuestas();
 
         respuestaUsario.value = "";
@@ -270,27 +284,25 @@ function agregarRespuesta() {
  * de respuestas y crea debajo las respuestas introducidas.
  */
 function actualizarRespuestas() {
-
+    // Si hay respuestas del usuario en el localStorage, se cargarn
     let respuestas = localStorage.getItem("respuestas");
-
     if (respuestas) {
         respuestas = JSON.parse(respuestas);
-
     } else {
         respuestas = [];
     }
 
+    // Coge el div de las respuestas errones del usuario
     const listaRespuestas = document.getElementById("respuestasUser");
 
+    // Limpia para que al actualizar no salgan respuestas anteriores
     listaRespuestas.innerHTML = "";
 
+    // Recorre la lista para mostrarlas
     for (let i = 0; i < respuestas.length; i++) {
-
         let respuestaUser = respuestas[i];
-
         const li = document.createElement("li");
         li.textContent = respuestaUser;
-
         listaRespuestas.appendChild(li);
     }
 }
@@ -311,10 +323,11 @@ function eliminarRespuestas() {
  * el estado del fondo e imagen en localStorage.
  */
 function cambiarFondoConImagen() {
-
+    // Variables para las imágenes
     const fondoDia = 'images/fondo.png';
     const fondoNoche = 'images/fondoNoche.png';
 
+    // Variables para los botones
     const imgbotonSol = "images/iconoSol.png";
     const imgbotonNoche = "images/iconoLuna.png";
 
