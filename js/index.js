@@ -101,6 +101,8 @@ function mostrarImagen() {
         elegirImagenRandom();
     }
 
+localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
+
     let trozo;
 
     // Seleccionar un trozo random que no se haya usado
@@ -148,6 +150,7 @@ function reiniciarJuego() {
     localStorage.removeItem("trozosImagen");
     eliminarRespuestas();
     mostrarImagen();
+     guardarContadorLocalStorage();
 }
 
 
@@ -211,7 +214,7 @@ function agregarRespuesta() {
     if (respuestaUsario != "") {
 
         // Si el usuario ha ganado
-        if (respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) {
+        if (mobSeleccionado && mobSeleccionado.length > 0 && respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) {
             alert(`¡Has acertado! El mob es ${mobSeleccionado[0]}.`);
             reiniciarJuego();
             return;
@@ -403,7 +406,7 @@ function limpiarLocalStorage() {
 */
 window.onload = function () {
     actualizarFondoConImagen();
-    // Si no hay imagenes en el localStorage, las carga
+    // Si no hay imágenes en el localStorage, las carga
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
     if (!imagenesGuardadas || JSON.parse(imagenesGuardadas).length === 0) {
         elegirImagenRandom();
@@ -412,10 +415,18 @@ window.onload = function () {
         mostrarImagenesGuardadas();
     }
 
+    // Recuperar el contador de intentos desde localStorage si existe
+    let contadorGuardado = localStorage.getItem("contadorIntentos");
+    if (contadorGuardado) {
+        contIntentos = parseInt(contadorGuardado, 10);
+    } else {
+        contIntentos = 0;  // Si no hay contador guardado, inicializar en 0
+    }
+
     actualizarRespuestas();
     agrandar();
 
     // Boton para modo oscuro/claro
     document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
 };
-// ------------------ FIN - LLAMADA FUNCIONES ------------------ //
+//----------------- FIN - LLAMADA FUNCIONES ------------------ //
