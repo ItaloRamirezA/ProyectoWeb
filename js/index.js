@@ -3,7 +3,7 @@
 let imagenes = new Array();
 
 // Almacena los intentos que tiene el usuario para adivinar.
-let contIntentos = Number(localStorage.getItem("contadorIntentos")) || 0;
+let contIntentos = 0;
 
 // Almacena el numero máximo de intentos.
 const MAXINTENTOS = 4;
@@ -74,7 +74,7 @@ function rellenarArray() {
         ["Wither", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png'],
         ["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']
     ];
-    // let arrayrelleno=localStorage.setItem("arraycomleto",JSON.stringify(imagenes));
+    //let arrayrelleno = localStorage.setItem("arraycomleto",JSON.stringify(imagenes));
 }
 
 /*
@@ -141,6 +141,7 @@ function mostrarImagen() {
 * Función que reinicia el juego borrando todo
 */
 function reiniciarJuego() {
+    contIntentos = 0;
     trozoDeimagenes = [];
     elegirImagenRandom();
     document.getElementById('contenedor-imagen-adivinar').innerHTML="";
@@ -196,24 +197,29 @@ function mostrarImagenesGuardadas() {
 }
 
 /**
+ * Función que guarda el contador en localStorage
+ */
+function guardarContadorLocalStorage() {
+    localStorage.setItem("contadorIntentos", contIntentos);
+}
+
+/**
  * Función en la que se agrega la respuesta y
  * las guarda en localStorage.
  */
 function agregarRespuesta() {
-
     if (respuestaUsario != "") {
 
-        if (respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) { // Aqui es donde se va a comparar con la respuesta correcta, por momento esta elefante como prueba
+        // Si el usuario ha ganado
+        if (respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) {
             alert(`¡Has acertado! El mob es ${mobSeleccionado[0]}.`);
-            eliminarRespuestas();
-            contIntentos = 0;
-            localStorage.setItem("contadorIntentos", contIntentos);
             reiniciarJuego();
             return;
+        } else {
+            contIntentos++;
+            guardarContadorLocalStorage();
         }
-
-        contIntentos++;
-        localStorage.setItem("contadorIntentos", contIntentos);
+        
 
         console.log(contIntentos);
         
@@ -221,8 +227,6 @@ function agregarRespuesta() {
             console.log("Entramos en fallo total");
             
             alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
-            eliminarRespuestas();
-            contIntentos = 0;
             localStorage.setItem("contadorIntentos", contIntentos);
             reiniciarJuego();
             return;
@@ -399,20 +403,13 @@ function limpiarLocalStorage() {
 */
 window.onload = function () {
     actualizarFondoConImagen();
-    // TODO
-    // TODO
-    // TODO
-    // TODO
-    // TODO
-    // Verificar si el localStorage de imágenes está vacío
+    // Si no hay imagenes en el localStorage, las carga
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
     if (!imagenesGuardadas || JSON.parse(imagenesGuardadas).length === 0) {
-        console.log("LocalStorage vacío, seleccionando mob y mostrando trozo inicial");
-        elegirImagenRandom(); // Selecciona el mob una sola vez si está vacío
-        mostrarImagen(); // Muestra el primer trozo
+        elegirImagenRandom();
+        mostrarImagen();
     } else {
-        console.log("Cargando imágenes guardadas del localStorage");
-        mostrarImagenesGuardadas(); // Carga los trozos ya guardados
+        mostrarImagenesGuardadas();
     }
 
     actualizarRespuestas();
