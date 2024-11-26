@@ -96,10 +96,11 @@ button {
     font-size: 20px; /* probablmenete borrar */
 }
 
+/* Div de los corazones */
 #contenedor-corazones{
     padding: 10px;
 }
-
+/* Corazones */
 #corazon{
     width: 50px;
     color: white;
@@ -118,7 +119,7 @@ button {
     background-color: #222;
     color: white;
 }
-
+/* Texto dentro del input */
 #entrada-respuesta::placeholder {
     font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 }

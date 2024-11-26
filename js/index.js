@@ -1,28 +1,28 @@
 // ------------------ Inicio - Variables Globales ------------------ //
-// Map de las imagenes que saldrán al inicio
-let imagenes = new Array();
-
-// Almacena los intentos que tiene el usuario para adivinar.
+// Almacena la cantidad de intentos que ha usado el jugador.
 let contIntentos = 0;
 
 // Almacena el numero máximo de intentos.
 const MAXINTENTOS = 4;
 
+// Array de las imagenes que saldrán al inicio
+let imagenes = new Array();
+
 // Almacena la posición en el array de la imagen random
 let posImagenRandom;
 
-//Array para los numeros de los trozos de imagenes que ya se han usado para no repetirlos
-let trozoDeimagenes = new Array();
+// Array de trozos de iamgen usados para no repetir
+let imagenesUsadas = new Array();
 
-// Respuesta del usuario en el 
-let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
+// Respuesta del usuario en el input
+let respuestaUsario = document.getElementById("entrada-respuesta").value.trim()[0];
 
 // Mob aleatorio seleccionado
 let mobSeleccionado;
 
 //Array con todas las imagenes y respeustas
 let arrayrelleno=[];
-// ------------------ FIN - VARIABLES Globales ------------------ //
+// ------------------ FIN - Varibales Globales ------------------ //
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
@@ -90,7 +90,7 @@ function elegirImagenRandom() {
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
     // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
-    trozoDeimagenes = mobSeleccionado;
+    imagenesUsadas = mobSeleccionado;
 
     // Guardamos el mbo en localStorage despues de elegirlo
     guardarMobSeleccionadoLocalStorage();
@@ -113,21 +113,21 @@ function mostrarImagen() {
     do {
          // Indices de 1 a 4
         trozo = Math.floor(Math.random() * 4) + 1;
-    } while (trozoDeimagenes.includes(trozo));
+    } while (imagenesUsadas.includes(trozo));
 
     
     // Registrar el trozo seleccionado en el array para evitar repeticiones
-    trozoDeimagenes.push(trozo);
+    imagenesUsadas.push(trozo);
 
     // Guardar la imagen en localStorage
     const rutaImagen = mobSeleccionado[trozo];
     guardarImagenEnLocalStorage(rutaImagen);
 
     // Crear un contenedor de filas si no existe aún
-    let filaActual = document.getElementById(`fila-${Math.ceil(trozoDeimagenes.length / 2)}`);
+    let filaActual = document.getElementById(`fila-${Math.ceil(imagenesUsadas.length / 2)}`);
     if (!filaActual) {
         filaActual = document.createElement('div');
-        filaActual.id = `fila-${Math.ceil(trozoDeimagenes.length / 2)}`;
+        filaActual.id = `fila-${Math.ceil(imagenesUsadas.length / 2)}`;
         filaActual.className = 'fila-imagenes';
         contenedor.appendChild(filaActual);
     }
@@ -140,27 +140,6 @@ function mostrarImagen() {
     fragmento.style.margin = "5px";
     fragmento.style.height = "auto";
     filaActual.appendChild(fragmento);
-}
-
-
-/*
-* Función que reinicia el juego borrando todo
-*/
-function reiniciarJuego() {
-    // Reinicia los intentos
-    contIntentos = 0;
-
-    // Vacia el array del mob seleccionado
-    trozoDeimagenes = [];
-
-    // Vacía el contenedor para agregar las nuevas imagenes
-    document.getElementById('contenedor-imagen-adivinar').innerHTML="";
-
-    //  Elimina los trozos del localStorage
-    localStorage.removeItem("trozosImagen");
-    eliminarRespuestas();
-    
-    iniciarJuego();
 }
 
 /*
@@ -285,12 +264,10 @@ function agregarRespuesta() {
 }
 
 /**
- * Verifica si el jugador ah perdido
- * @returns 
+ * Verifica si el jugador ha perdido y reinicia el juego.
  */
 function hasPerdido() {
     if (MAXINTENTOS <= contIntentos) {
-        
         alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
         guardarContadorLocalStorage();
         reiniciarJuego();
@@ -302,7 +279,6 @@ function hasPerdido() {
  * de respuestas y crea debajo las respuestas introducidas.
  */
 function actualizarRespuestas() {
-
     let respuestas = localStorage.getItem("respuestas");
 
     if (respuestas) {
@@ -343,7 +319,6 @@ function eliminarRespuestas() {
  * el estado del fondo e imagen en localStorage.
  */
 function cambiarFondoConImagen() {
-
     const fondoDia = 'images/fondo.png';
     const fondoNoche = 'images/fondoNoche.png';
 
@@ -390,13 +365,6 @@ function actualizarFondoConImagen() {
 }
 
 /**
- * Función que devuelve la respuesta
- */
-function respuesta() {
-    let mobRespuesta = elegirImagenRandom()
-}
-
-/**
  * Función que verifica si la respuesta es correcta
  */
 function botonAdivinar() {
@@ -411,6 +379,26 @@ function botonAdivinar() {
  */
 function limpiarLocalStorage() {
     localStorage.clear();
+}
+
+/*
+* Función que reinicia el juego borrando todo
+*/
+function reiniciarJuego() {
+    // Reinicia los intentos
+    contIntentos = 0;
+
+    // Vacia el array del mob seleccionado
+    imagenesUsadas = [];
+
+    // Vacía el contenedor para agregar las nuevas imagenes
+    document.getElementById('contenedor-imagen-adivinar').innerHTML="";
+
+    //  Elimina los trozos del localStorage
+    localStorage.removeItem("trozosImagen");
+    eliminarRespuestas();
+    
+    iniciarJuego();
 }
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
 
