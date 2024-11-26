@@ -1,28 +1,25 @@
 // ------------------ Inicio - Variables Globales ------------------ //
-// Almacena la cantidad de intentos que ha usado el jugador.
+// Map de las imagenes que saldrán al inicio
+let imagenes = new Array();
+
+// Almacena los intentos que tiene el usuario para adivinar.
 let contIntentos = 0;
 
 // Almacena el numero máximo de intentos.
 const MAXINTENTOS = 4;
 
-// Array de las imagenes que saldrán al inicio
-let imagenes = new Array();
-
 // Almacena la posición en el array de la imagen random
 let posImagenRandom;
 
-// Array de trozos de iamgen usados para no repetir
-let imagenesUsadas = new Array();
+//Array para los numeros de los trozos de imagenes que ya se han usado para no repetirlos
+let trozoDeimagenes = new Array();
 
-// Respuesta del usuario en el input
-let respuestaUsario = document.getElementById("entrada-respuesta").value.trim()[0];
+// Respuesta del usuario en el 
+let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
 
 // Mob aleatorio seleccionado
 let mobSeleccionado;
-
-//Array con todas las imagenes y respeustas
-let arrayrelleno=[];
-// ------------------ FIN - Varibales Globales ------------------ //
+// ------------------ FIN - VARIABLES Globales ------------------ //
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
@@ -77,7 +74,7 @@ function rellenarArray() {
         ["Wither", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png'],
         ["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']
     ];
-    arrayrelleno = localStorage.setItem("arrayrelleno",JSON.stringify(imagenes));
+    //let arrayrelleno = localStorage.setItem("arraycomleto",JSON.stringify(imagenes));
 }
 
 /*
@@ -90,10 +87,7 @@ function elegirImagenRandom() {
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
     // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
-    imagenesUsadas = mobSeleccionado;
-
-    // Guardamos el mbo en localStorage despues de elegirlo
-    guardarMobSeleccionadoLocalStorage();
+    trozoDeimagenes = mobSeleccionado;
 }
 
 /*
@@ -113,21 +107,21 @@ function mostrarImagen() {
     do {
          // Indices de 1 a 4
         trozo = Math.floor(Math.random() * 4) + 1;
-    } while (imagenesUsadas.includes(trozo));
+    } while (trozoDeimagenes.includes(trozo));
 
     
     // Registrar el trozo seleccionado en el array para evitar repeticiones
-    imagenesUsadas.push(trozo);
+    trozoDeimagenes.push(trozo);
 
     // Guardar la imagen en localStorage
     const rutaImagen = mobSeleccionado[trozo];
     guardarImagenEnLocalStorage(rutaImagen);
 
     // Crear un contenedor de filas si no existe aún
-    let filaActual = document.getElementById(`fila-${Math.ceil(imagenesUsadas.length / 2)}`);
+    let filaActual = document.getElementById(`fila-${Math.ceil(trozoDeimagenes.length / 2)}`);
     if (!filaActual) {
         filaActual = document.createElement('div');
-        filaActual.id = `fila-${Math.ceil(imagenesUsadas.length / 2)}`;
+        filaActual.id = `fila-${Math.ceil(trozoDeimagenes.length / 2)}`;
         filaActual.className = 'fila-imagenes';
         contenedor.appendChild(filaActual);
     }
@@ -142,11 +136,17 @@ function mostrarImagen() {
     filaActual.appendChild(fragmento);
 }
 
+
 /*
-* Función que inicia el juego
+* Función que reinicia el juego borrando todo
 */
-function iniciarJuego() {
+function reiniciarJuego() {
+    contIntentos = 0;
+    trozoDeimagenes = [];
     elegirImagenRandom();
+    document.getElementById('contenedor-imagen-adivinar').innerHTML="";
+    localStorage.removeItem("trozosImagen");
+    eliminarRespuestas();
     mostrarImagen();
 }
 
@@ -204,13 +204,6 @@ function guardarContadorLocalStorage() {
 }
 
 /**
- * Función que guarda el mob seleccionado
- */
-function guardarMobSeleccionadoLocalStorage() {
-    localStorage.setItem("mobSeleccionado", mobSeleccionado);
-}
-
-/**
  * Función en la que se agrega la respuesta y
  * las guarda en localStorage.
  */
@@ -226,35 +219,54 @@ function agregarRespuesta() {
             contIntentos++;
             guardarContadorLocalStorage();
         }
+        
 
-        hasPerdido();
+        console.log(contIntentos);
         
+        if (MAXINTENTOS <= contIntentos) {
+            console.log("Entramos en fallo total");
+            
+            alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
+            localStorage.setItem("contadorIntentos", contIntentos);
+            reiniciarJuego();
+            return;
+        }
+
         alert(`Has fallado. Intentelo de nuevo. Te quedan ${MAXINTENTOS - contIntentos} intentos.`);
-        
+        console.log("muestra error");
         
         mostrarImagen();
+        console.log("mostrar imaagen");
         
         
 
         let respuestas = localStorage.getItem("respuestas");
+        console.log("se guarda respeuesta en local storage");
         
         if (respuestas) {
+            console.log("tiene respuesta");
             
             respuestas = JSON.parse(respuestas);
 
         } else {
+            console.log("mo tiene respuesta");
             respuestas = [];
         }
 
         respuestas.push(respuestaUsario);
+        console.log("reouestas a reosuesta");
         
         localStorage.setItem("respuestas", JSON.stringify(respuestas));
+        console.log("meter a local storage respeustas");
         
         localStorage.setItem("contadorIntentos", contIntentos);
+        console.log("contador intentos a local storage");
         
         actualizarRespuestas();
+        console.log("actualizar respeustas");
         
         respuestaUsario.value = "";
+        console.log("borrar texto de respuesta");
         
 
     } else {
@@ -264,21 +276,11 @@ function agregarRespuesta() {
 }
 
 /**
- * Verifica si el jugador ha perdido y reinicia el juego.
- */
-function hasPerdido() {
-    if (MAXINTENTOS <= contIntentos) {
-        alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
-        guardarContadorLocalStorage();
-        reiniciarJuego();
-    }
-}
-
-/**
  * Función que actualiza la lista
  * de respuestas y crea debajo las respuestas introducidas.
  */
 function actualizarRespuestas() {
+
     let respuestas = localStorage.getItem("respuestas");
 
     if (respuestas) {
@@ -319,6 +321,7 @@ function eliminarRespuestas() {
  * el estado del fondo e imagen en localStorage.
  */
 function cambiarFondoConImagen() {
+
     const fondoDia = 'images/fondo.png';
     const fondoNoche = 'images/fondoNoche.png';
 
@@ -365,12 +368,21 @@ function actualizarFondoConImagen() {
 }
 
 /**
+ * Función que devuelve la respuesta
+ */
+function respuesta() {
+    let mobRespuesta = elegirImagenRandom()
+}
+
+/**
  * Función que verifica si la respuesta es correcta
  */
 function botonAdivinar() {
 
     // Respuesta del usuario
     respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
+    console.log("Respuesta Usario: " + respuestaUsario);
+    console.log("Contador: " + contIntentos);
     agregarRespuesta();
 }
 
@@ -379,26 +391,6 @@ function botonAdivinar() {
  */
 function limpiarLocalStorage() {
     localStorage.clear();
-}
-
-/*
-* Función que reinicia el juego borrando todo
-*/
-function reiniciarJuego() {
-    // Reinicia los intentos
-    contIntentos = 0;
-
-    // Vacia el array del mob seleccionado
-    imagenesUsadas = [];
-
-    // Vacía el contenedor para agregar las nuevas imagenes
-    document.getElementById('contenedor-imagen-adivinar').innerHTML="";
-
-    //  Elimina los trozos del localStorage
-    localStorage.removeItem("trozosImagen");
-    eliminarRespuestas();
-    
-    iniciarJuego();
 }
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
 
@@ -411,10 +403,6 @@ function reiniciarJuego() {
 */
 window.onload = function () {
     actualizarFondoConImagen();
-
-    // Carga el mobSeleccionado desde el localStorage
-    let mobSeleccionado = localStorage.getItem("mobSeleccionado");
-
     // Si no hay imagenes en el localStorage, las carga
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
     if (!imagenesGuardadas || JSON.parse(imagenesGuardadas).length === 0) {
@@ -424,7 +412,6 @@ window.onload = function () {
         mostrarImagenesGuardadas();
     }
 
-    
     actualizarRespuestas();
     agrandar();
 
