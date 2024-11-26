@@ -331,9 +331,11 @@ function cambiarFondoConImagen() {
     const imgbotonSol = "images/iconoSol.png";
     const imgbotonNoche = "images/iconoLuna.png";
 
+    // Variables para el fondo de los botones
     const botonFondo = document.getElementById("btnCambioFondo");
     const fondoActual = localStorage.getItem("fondo") || fondoDia;
 
+    // Si es de noche lo cambia al de día
     if (fondoActual === fondoNoche) {
         document.body.style.backgroundImage = `url('${fondoDia}')`;
         botonFondo.src = imgbotonSol;
@@ -341,6 +343,7 @@ function cambiarFondoConImagen() {
         localStorage.setItem("fondo", fondoDia);
         localStorage.setItem("icono", imgbotonSol);
     } else {
+        // Si es de día lo cambia al de noche
         document.body.style.backgroundImage = `url('${fondoNoche}')`;
         botonFondo.src = imgbotonNoche;
 
@@ -371,27 +374,11 @@ function actualizarFondoConImagen() {
 }
 
 /**
- * Función que devuelve la respuesta
- */
-function respuesta() {
-    let mobRespuesta = elegirImagenRandom()
-}
-
-/**
  * Función que verifica si la respuesta es correcta
  */
 function botonAdivinar() {
-
-    // Respuesta del usuario
     respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
     agregarRespuesta();
-}
-
-/**
- * Limpia todo el localStorage
- */
-function limpiarLocalStorage() {
-    localStorage.clear();
 }
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
 
@@ -411,7 +398,7 @@ window.onload = function () {
     if (imagenesGuardadas) {
         imagenes = JSON.parse(imagenesGuardadas);
     } else {
-        rellenarArray(); // Llenar el array si no hay imágenes guardadas
+        rellenarArray();
     }
 
     // Recuperar trozosUsados desde localStorage
