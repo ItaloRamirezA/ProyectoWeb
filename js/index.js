@@ -383,59 +383,61 @@ function botonAdivinar() {
 // ------------------ FIN - FUNCIONES UTILES ------------------ //
 
 
-// ------------------ INICIO - LLAMADA FUNCIONES ------------------ //
+// ------------------ INICIO - ONLOAD ------------------ //
 /*
-* Apenas cargue la página:
-*    - Se rellena el array
-*    - Se selecciona el mob aleatoriamente
+* Apenas cargue la página obtiene los elementos
+* del localStorage y los carga a la página
 */
 window.onload = function () {
-    // Actualiza el fondo con la imagen guardada
+    // Actualiza el fondo con la imagen guardada en localStorage
     actualizarFondoConImagen();
 
-    // Recuperar las imágenes guardadas desde localStorage
+    // Cogemos las imagenes del localStorage
     let imagenesGuardadas = localStorage.getItem("imagenes");
     if (imagenesGuardadas) {
+        // Si existe, lo asignamos a la variable global
         imagenes = JSON.parse(imagenesGuardadas);
     } else {
         rellenarArray();
     }
 
-    // Recuperar trozosUsados desde localStorage
-    let trozosGuardados = localStorage.getItem("trozosUsados");
-    if (trozosGuardados) {
-        // Si trozosUsados está guardado, lo parseamos y lo asignamos
-        trozosUsados = JSON.parse(trozosGuardados);
+    // Cogemos el trozo del localStorage
+    let trozoLocalStorage = localStorage.getItem("trozosUsados");
+    if (trozoLocalStorage) {
+        // Si existe, lo asignamos a la variable global
+        trozosUsados = JSON.parse(trozoLocalStorage);
     } else {
         // Si no hay trozosUsados guardado, elegimos una nueva imagen aleatoria
         elegirImagenRandom();
     }
 
-    // Recuperar mobSeleccionado desde localStorage
-    let mobGuardado = localStorage.getItem("mobSeleccionado");
-    if (mobGuardado) {
-        // Si hay un mob guardado, lo parseamos
-        mobSeleccionado = JSON.parse(mobGuardado);
+    // Cogemos el mob random del localStorage
+    let mobLocalStorage = localStorage.getItem("mobSeleccionado");
+    if (mobLocalStorage) {
+        // Si existe, lo asignamos a la variable global
+        mobSeleccionado = JSON.parse(mobLocalStorage);
     } else {
         // Si no hay mob guardado, elegimos uno nuevo
         elegirImagenRandom();
     }
 
-    // Recuperar trozos de imagen desde localStorage
-    let imagenesGuardadasTrozos = localStorage.getItem("trozosImagen");
-    if (imagenesGuardadasTrozos && JSON.parse(imagenesGuardadasTrozos).length > 0) {
-        mostrarImagenesGuardadas(); // Mostrar imágenes guardadas si existen
+    // Cogemos los trozos del localStorage
+    let trozosLocalStorage = localStorage.getItem("trozosImagen");
+    if (trozosLocalStorage && JSON.parse(trozosLocalStorage).length > 0) {
+        // Si existe, lo asignamos a la variable global
+        mostrarImagenesGuardadas();
     } else {
-        mostrarImagen(); // Mostrar nuevas imágenes si no hay guardadas
+        // Si no hay, lo cargamos con la función
+        mostrarImagen();
     }
 
-    // Recuperar el contador de intentos desde localStorage o establecer a 0 si no existe
+    // Cogemos el contador del localStorage y si no existe, lo ponemos a 0
     contIntentos = parseInt(localStorage.getItem("contadorIntentos"), 10) || 0;
-
+    
     // Actualizar las respuestas almacenadas en localStorage
     actualizarRespuestas();
 
-    // Aplicar efectos de agrandado a los botones y elementos interactivos
+    // Efectos de los botones y el logo
     agrandar();
 
     // Boton modo oscuro y claro
