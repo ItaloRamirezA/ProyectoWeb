@@ -128,24 +128,14 @@ function mostrarImagen() {
     // Guardar la imagen en localStorage
     guardarImagenEnLocalStorage(rutaImagen);
 
-    // Crear un contenedor de filas si no existe aún
-    let filaActual = document.getElementById(`fila-${Math.ceil(trozosUsados.length / 2)}`);
-    if (!filaActual) {
-        filaActual = document.createElement('div');
-        filaActual.id = `fila-${Math.ceil(trozosUsados.length / 2)}`;
-        filaActual.className = 'fila-imagenes';
-        contenedor.appendChild(filaActual);
-    }
-
-    // Crear y mostrar la imagen
+    // Crear y mostrar la imagen directamente en el contenedor principal
     const fragmento = document.createElement('img');
     fragmento.src = rutaImagen;
-    fragmento.alt = `Trozo de imagen ${trozo}`;
     fragmento.style.width = "75px";
     fragmento.style.margin = "5px";
     fragmento.style.height = "auto";
-    filaActual.appendChild(fragmento);
-}
+    contenedor.appendChild(fragmento);
+    }
 
 
 /*
