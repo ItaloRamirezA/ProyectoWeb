@@ -89,7 +89,6 @@ function elegirImagenRandom() {
 
     // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
-    trozosUsados = mobSeleccionado;
 
     // Guarda el array del mob seleccionado en localStorage
     localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
@@ -220,6 +219,7 @@ function mostrarImagenesGuardadas() {
  * Función que guarda el contador en localStorage
  */
 function guardarContadorLocalStorage() {
+
     localStorage.setItem("contadorIntentos", contIntentos);
 }
 
@@ -250,7 +250,7 @@ function agregarRespuesta() {
             alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
 
             // Guarda en localStorage el contador de intentos
-            guardarContadorLocalStorage();
+            localStorage.clear();
             reiniciarJuego();
             return;
         }
