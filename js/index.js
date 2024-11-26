@@ -11,10 +11,10 @@ const MAXINTENTOS = 4;
 // Almacena la posición en el array de la imagen random
 let posImagenRandom;
 
-//Array para los numeros de los trozos de imagenes que ya se han usado para no repetirlos
-let trozoDeimagenes = new Array();
+// Array para los trozos de imagen del mob que ya se han usado
+let trozosUsados = new Array();
 
-// Respuesta del usuario en el 
+// Respuesta del usuario en el input
 let respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
 
 // Mob aleatorio seleccionado
@@ -44,9 +44,11 @@ function agrandar() {
 * se agranda y cuando sale vuelve a su tamano
 */
 function efectoAgrandarImagen(objetoImagen, escala) {
+    // Cuando pones el ratón encima
     objetoImagen.addEventListener('mouseover', function () {
         objetoImagen.style.transform = `scale(${escala})`;
     });
+    // Cuando quitas el ratón
     objetoImagen.addEventListener('mouseout', function () {
         objetoImagen.style.transform = 'scale(1)';
     });
@@ -55,7 +57,7 @@ function efectoAgrandarImagen(objetoImagen, escala) {
 
 // ------------------ INICIO - FUNCIONES UTILES ------------------ //
 /*
-* Funcion para rellenar el array con arrays de imagenes
+* Funcion para rellenar el array bidimensional de mobs
 */
 function rellenarArray() {
     imagenes = [
@@ -74,7 +76,7 @@ function rellenarArray() {
 }
 
 /*
-* Función para elegir una imagen aleatoria al inciar la página.
+* Función para elegir una imagen aleatoria al inciar el juego.
 */
 function elegirImagenRandom() {
     // Si esta vacío, lo rellena
@@ -82,12 +84,12 @@ function elegirImagenRandom() {
         rellenarArray();
     }
 
-    // Pos aleatoria del array
+    // Pos aleatoria del array de mobs
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
 
     // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
-    trozoDeimagenes = mobSeleccionado;
+    trozosUsados = mobSeleccionado;
 
     // Guarda el array del mob seleccionado en localStorage
     localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
@@ -97,29 +99,28 @@ function elegirImagenRandom() {
 * Función que muestra el trozo de imagen aleatoria
 */
 function mostrarImagen() {
-    const contenedor = document.getElementById('contenedor-imagen-adivinar');
+    // Recuadro central de imágenes
+    let contenedor = document.getElementById('contenedor-imagen-adivinar');
 
-    // Validar que el mob seleccionado esté definido
+    // Verifica que el mobAletorio este seleccionado
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
     }
 
+    // Despues de mostrar una nueva, guardamos otra vez el array del mob
     localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
 
     let trozo;
-
-    // Seleccionar un trozo random que no se haya usado
+    // Seleccionar un trozo random hasta que encuentre uno que no se haya usado
     do {
-        // Indices de 1 a 4
         trozo = Math.floor(Math.random() * 4) + 1;
-    } while (trozoDeimagenes.includes(trozo));
+    } while (trozosUsados.includes(trozo));
 
 
-    // Registrar el trozo seleccionado en el array para evitar repeticiones
-    trozoDeimagenes.push(trozo);
-    // Convertir el array a una cadena JSON antes de guardarlo
-    localStorage.setItem("trozoDeimagenes", JSON.stringify(trozoDeimagenes));
-
+    // Guarda en el array de usado el trozo que se agrega a la página
+    trozosUsados.push(trozo);
+    // JSON.stringify para guardar el array
+    localStorage.setItem("trozosUsados", JSON.stringify(trozosUsados));
 
     // Selecciona el trozo(es la url de la imagen)
     const rutaImagen = mobSeleccionado[trozo];
@@ -128,10 +129,10 @@ function mostrarImagen() {
     guardarImagenEnLocalStorage(rutaImagen);
 
     // Crear un contenedor de filas si no existe aún
-    let filaActual = document.getElementById(`fila-${Math.ceil(trozoDeimagenes.length / 2)}`);
+    let filaActual = document.getElementById(`fila-${Math.ceil(trozosUsados.length / 2)}`);
     if (!filaActual) {
         filaActual = document.createElement('div');
-        filaActual.id = `fila-${Math.ceil(trozoDeimagenes.length / 2)}`;
+        filaActual.id = `fila-${Math.ceil(trozosUsados.length / 2)}`;
         filaActual.className = 'fila-imagenes';
         contenedor.appendChild(filaActual);
     }
@@ -152,7 +153,7 @@ function mostrarImagen() {
 */
 function reiniciarJuego() {
     contIntentos = 0;
-    trozoDeimagenes = [];
+    trozosUsados = [];
     elegirImagenRandom();
     document.getElementById('contenedor-imagen-adivinar').innerHTML = "";
     localStorage.removeItem("trozosImagen");
@@ -166,7 +167,6 @@ function reiniciarJuego() {
 * Función que guarda las imágenes en el localStorage
 */
 function guardarImagenEnLocalStorage(trozoImagen) {
-
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
     if (imagenesGuardadas) {
@@ -250,7 +250,6 @@ function agregarRespuesta() {
         // Si no ha ganado ni perdido, es porque falló y puede seguir intentando
         alert(`Has fallado. Te quedan ${MAXINTENTOS - contIntentos} intentos`);
 
-        // Muest
         mostrarImagen();
 
         let respuestas = localStorage.getItem("respuestas");
@@ -412,13 +411,13 @@ window.onload = function () {
         rellenarArray(); // Llenar el array si no hay imágenes guardadas
     }
 
-    // Recuperar trozoDeimagenes desde localStorage
-    let trozosGuardados = localStorage.getItem("trozoDeimagenes");
+    // Recuperar trozosUsados desde localStorage
+    let trozosGuardados = localStorage.getItem("trozosUsados");
     if (trozosGuardados) {
-        // Si trozoDeimagenes está guardado, lo parseamos y lo asignamos
-        trozoDeimagenes = JSON.parse(trozosGuardados);
+        // Si trozosUsados está guardado, lo parseamos y lo asignamos
+        trozosUsados = JSON.parse(trozosGuardados);
     } else {
-        // Si no hay trozoDeimagenes guardado, elegimos una nueva imagen aleatoria
+        // Si no hay trozosUsados guardado, elegimos una nueva imagen aleatoria
         elegirImagenRandom();
     }
 
