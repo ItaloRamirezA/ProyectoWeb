@@ -86,14 +86,14 @@ button {
 #contenedor-respuestas {
     margin: 20px auto;
     height: auto;
-    width: 650px;
+    width: 550px;
     background-color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 5px solid greenyellow;
     border-radius: 15px;
-    font-size: 20px; /* probablmenete borrar */
+    font-size: 20px;
 }
 
 

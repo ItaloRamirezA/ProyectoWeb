@@ -23,7 +23,7 @@ let mobSeleccionado;
 
 // ------------------ INICIO - FUNCIONES DE DETALLES ------------------ //
 /* 
-* Función que agranda objetos
+* Función que da efecto de agrandar objetos
 */
 function agrandar() {
     // Logo del footer
@@ -40,7 +40,7 @@ function agrandar() {
 }
 
 /*
-* Cuando el mouse pasa por encima,la imagen
+* Cuando el mouse pasa por encima, la imagen
 * se agranda y cuando sale vuelve a su tamano
 */
 function efectoAgrandarImagen(objetoImagen, escala) {
@@ -51,14 +51,11 @@ function efectoAgrandarImagen(objetoImagen, escala) {
         objetoImagen.style.transform = 'scale(1)';
     });
 }
-
-
 // ------------------ FIN - FUNCIONES DE DETALLES ------------------ //
 
 // ------------------ INICIO - FUNCIONES UTILES ------------------ //
 /*
-* Funcion para rellenar el array con arrays de imagenes 
-* solo cuando el usuario entre por primera vez o despues de cerrar el navegador.
+* Funcion para rellenar el array con arrays de imagenes
 */
 function rellenarArray() {
     imagenes = [
@@ -74,20 +71,25 @@ function rellenarArray() {
         ["Wither", 'images/Whiter/fila-1-columna-1.png', 'images/Whiter/fila-1-columna-2.png', 'images/Whiter/fila-2-columna-1.png', 'images/Whiter/fila-2-columna-2.png'],
         ["Zombie", 'images/Zombie/fila-1-columna-1.png', 'images/Zombie/fila-1-columna-2.png', 'images/Zombie/fila-2-columna-1.png', 'images/Zombie/fila-2-columna-2.png']
     ];
-    //let arrayrelleno = localStorage.setItem("arraycomleto",JSON.stringify(imagenes));
 }
 
 /*
 * Función para elegir una imagen aleatoria al inciar la página.
 */
 function elegirImagenRandom() {
+    // Si esta vacío, lo rellena
     if (imagenes.length == 0) {
         rellenarArray();
     }
+
+    // Pos aleatoria del array
     posImagenRandom = Math.floor(Math.random() * imagenes.length);
+
     // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
     trozoDeimagenes = mobSeleccionado;
+
+    // Guarda el array del mob seleccionado en localStorage
     localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
 }
 
@@ -119,8 +121,10 @@ function mostrarImagen() {
     localStorage.setItem("trozoDeimagenes", JSON.stringify(trozoDeimagenes));
 
 
-    // Guardar la imagen en localStorage
+    // Selecciona el trozo(es la url de la imagen)
     const rutaImagen = mobSeleccionado[trozo];
+
+    // Guardar la imagen en localStorage
     guardarImagenEnLocalStorage(rutaImagen);
 
     // Crear un contenedor de filas si no existe aún
@@ -134,7 +138,7 @@ function mostrarImagen() {
 
     // Crear y mostrar la imagen
     const fragmento = document.createElement('img');
-    fragmento.src = rutaImagen; // Usar la ruta de la imagen seleccionada
+    fragmento.src = rutaImagen;
     fragmento.alt = `Trozo de imagen ${trozo}`;
     fragmento.style.width = "75px";
     fragmento.style.margin = "5px";
@@ -215,71 +219,60 @@ function guardarContadorLocalStorage() {
 /**
  * Función en la que se agrega la respuesta y
  * las guarda en localStorage.
+ * 
+ * Verifica si el usuario ha ganado
+ * Verifica si el usuario ha perdido
  */
 function agregarRespuesta() {
+    // Solo entra si hay respuesta del usuario
     if (respuestaUsario != "") {
 
-        // Si el usuario ha ganado
-        if (mobSeleccionado && mobSeleccionado.length > 0 && respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) {
-            alert(`¡Has acertado! El mob es ${mobSeleccionado[0]}.`);
+        // Veririfica que la respuesta del usuario sea igual al mob seleccionado y reinicia el juego
+        if (respuestaUsario.toLowerCase().trim() == mobSeleccionado[0].toLowerCase().trim()) {
+            alert(`¡Has acertado! El mob es ${mobSeleccionado[0]}`);
             reiniciarJuego();
             return;
         } else {
             contIntentos++;
             guardarContadorLocalStorage();
         }
-
-
-        console.log(contIntentos);
-
+        
+        // Si el usuario ha perdido, avisa y reinicia
         if (MAXINTENTOS <= contIntentos) {
-           
-
             alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
-            localStorage.setItem("contadorIntentos", contIntentos);
+
+            // Guarda en localStorage el contador de intentos
+            guardarContadorLocalStorage();
             reiniciarJuego();
             return;
         }
 
-        alert(`Has fallado. Intentelo de nuevo. Te quedan ${MAXINTENTOS - contIntentos} intentos.`);
-       
+        // Si no ha ganado ni perdido, es porque falló y puede seguir intentando
+        alert(`Has fallado. Te quedan ${MAXINTENTOS - contIntentos} intentos`);
 
+        // Muest
         mostrarImagen();
-      
-
-
 
         let respuestas = localStorage.getItem("respuestas");
      
 
         if (respuestas) {
-      
-
             respuestas = JSON.parse(respuestas);
-
         } else {
-    
             respuestas = [];
         }
 
         respuestas.push(respuestaUsario);
 
         localStorage.setItem("respuestas", JSON.stringify(respuestas));
-       
 
-        localStorage.setItem("contadorIntentos", contIntentos);
-      
+        guardarContadorLocalStorage();
 
         actualizarRespuestas();
-       
 
         respuestaUsario.value = "";
-     
-
-
     } else {
-        alert("No se puede enviar una respuesta vacía.");
-
+        alert("No se puede enviar una respuesta vacía");
     }
 }
 
@@ -456,9 +449,7 @@ window.onload = function () {
     // Aplicar efectos de agrandado a los botones y elementos interactivos
     agrandar();
 
-    // Configurar el botón para cambiar entre modo claro y oscuro
+    // Boton modo oscuro y claro
     document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
 };
-
-
 //----------------- FIN - LLAMADA FUNCIONES ------------------ //
