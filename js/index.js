@@ -88,6 +88,7 @@ function elegirImagenRandom() {
     // Guarda el mob seleccionado globalmente
     mobSeleccionado = imagenes[posImagenRandom];
     trozoDeimagenes = mobSeleccionado;
+    localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
 }
 
 /*
@@ -95,25 +96,28 @@ function elegirImagenRandom() {
 */
 function mostrarImagen() {
     const contenedor = document.getElementById('contenedor-imagen-adivinar');
-  
+
     // Validar que el mob seleccionado esté definido
     if (!mobSeleccionado || mobSeleccionado.length === 0) {
         elegirImagenRandom();
     }
 
-localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
+    localStorage.setItem("mobSeleccionado", JSON.stringify(mobSeleccionado));
 
     let trozo;
 
     // Seleccionar un trozo random que no se haya usado
     do {
-         // Indices de 1 a 4
+        // Indices de 1 a 4
         trozo = Math.floor(Math.random() * 4) + 1;
     } while (trozoDeimagenes.includes(trozo));
 
-    
+
     // Registrar el trozo seleccionado en el array para evitar repeticiones
     trozoDeimagenes.push(trozo);
+    // Convertir el array a una cadena JSON antes de guardarlo
+    localStorage.setItem("trozoDeimagenes", JSON.stringify(trozoDeimagenes));
+
 
     // Guardar la imagen en localStorage
     const rutaImagen = mobSeleccionado[trozo];
@@ -146,11 +150,11 @@ function reiniciarJuego() {
     contIntentos = 0;
     trozoDeimagenes = [];
     elegirImagenRandom();
-    document.getElementById('contenedor-imagen-adivinar').innerHTML="";
+    document.getElementById('contenedor-imagen-adivinar').innerHTML = "";
     localStorage.removeItem("trozosImagen");
     eliminarRespuestas();
     mostrarImagen();
-     guardarContadorLocalStorage();
+    guardarContadorLocalStorage();
 }
 
 
@@ -158,6 +162,7 @@ function reiniciarJuego() {
 * Función que guarda las imágenes en el localStorage
 */
 function guardarImagenEnLocalStorage(trozoImagen) {
+
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
     if (imagenesGuardadas) {
@@ -178,6 +183,7 @@ function guardarImagenEnLocalStorage(trozoImagen) {
 * Función que muestras las imágenes guardadas en el localStorage
 */
 function mostrarImagenesGuardadas() {
+
     let imagenesGuardadas = localStorage.getItem("trozosImagen");
 
     if (imagenesGuardadas) {
@@ -222,13 +228,13 @@ function agregarRespuesta() {
             contIntentos++;
             guardarContadorLocalStorage();
         }
-        
+
 
         console.log(contIntentos);
-        
+
         if (MAXINTENTOS <= contIntentos) {
             console.log("Entramos en fallo total");
-            
+
             alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
             localStorage.setItem("contadorIntentos", contIntentos);
             reiniciarJuego();
@@ -237,18 +243,18 @@ function agregarRespuesta() {
 
         alert(`Has fallado. Intentelo de nuevo. Te quedan ${MAXINTENTOS - contIntentos} intentos.`);
         console.log("muestra error");
-        
+
         mostrarImagen();
         console.log("mostrar imaagen");
-        
-        
+
+
 
         let respuestas = localStorage.getItem("respuestas");
         console.log("se guarda respeuesta en local storage");
-        
+
         if (respuestas) {
             console.log("tiene respuesta");
-            
+
             respuestas = JSON.parse(respuestas);
 
         } else {
@@ -258,19 +264,19 @@ function agregarRespuesta() {
 
         respuestas.push(respuestaUsario);
         console.log("reouestas a reosuesta");
-        
+
         localStorage.setItem("respuestas", JSON.stringify(respuestas));
         console.log("meter a local storage respeustas");
-        
+
         localStorage.setItem("contadorIntentos", contIntentos);
         console.log("contador intentos a local storage");
-        
+
         actualizarRespuestas();
         console.log("actualizar respeustas");
-        
+
         respuestaUsario.value = "";
         console.log("borrar texto de respuesta");
-        
+
 
     } else {
         alert("No se puede enviar una respuesta vacía.");
@@ -359,14 +365,14 @@ function actualizarFondoConImagen() {
 
     if (fondoGuardado) {
         document.body.style.backgroundImage = `url('${fondoGuardado}')`;
-    }else{
-           document.body.style.backgroundImage = `url('images/fondo.png')`
+    } else {
+        document.body.style.backgroundImage = `url('images/fondo.png')`
     }
 
     if (iconoGuardado) {
         document.getElementById("btnCambioFondo").src = iconoGuardado;
-    }else{
-        document.getElementById("btnCambioFondo").src ='images/iconoSol.png';
+    } else {
+        document.getElementById("btnCambioFondo").src = 'images/iconoSol.png';
     }
 }
 
@@ -405,28 +411,57 @@ function limpiarLocalStorage() {
 *    - Se selecciona el mob aleatoriamente
 */
 window.onload = function () {
+    // Actualiza el fondo con la imagen guardada
     actualizarFondoConImagen();
-    // Si no hay imágenes en el localStorage, las carga
-    let imagenesGuardadas = localStorage.getItem("trozosImagen");
-    if (!imagenesGuardadas || JSON.parse(imagenesGuardadas).length === 0) {
+
+    // Recuperar las imágenes guardadas desde localStorage
+    let imagenesGuardadas = localStorage.getItem("imagenes");
+    if (imagenesGuardadas) {
+        imagenes = JSON.parse(imagenesGuardadas);
+    } else {
+        rellenarArray(); // Llenar el array si no hay imágenes guardadas
+    }
+
+    // Recuperar trozoDeimagenes desde localStorage
+    let trozosGuardados = localStorage.getItem("trozoDeimagenes");
+    if (trozosGuardados) {
+        // Si trozoDeimagenes está guardado, lo parseamos y lo asignamos
+        trozoDeimagenes = JSON.parse(trozosGuardados);
+    } else {
+        // Si no hay trozoDeimagenes guardado, elegimos una nueva imagen aleatoria
         elegirImagenRandom();
-        mostrarImagen();
-    } else {
-        mostrarImagenesGuardadas();
     }
 
-    // Recuperar el contador de intentos desde localStorage si existe
-    let contadorGuardado = localStorage.getItem("contadorIntentos");
-    if (contadorGuardado) {
-        contIntentos = parseInt(contadorGuardado, 10);
+    // Recuperar mobSeleccionado desde localStorage
+    let mobGuardado = localStorage.getItem("mobSeleccionado");
+    if (mobGuardado) {
+        // Si hay un mob guardado, lo parseamos
+        mobSeleccionado = JSON.parse(mobGuardado);
     } else {
-        contIntentos = 0;  // Si no hay contador guardado, inicializar en 0
+        // Si no hay mob guardado, elegimos uno nuevo
+        elegirImagenRandom();
     }
 
+    // Recuperar trozos de imagen desde localStorage
+    let imagenesGuardadasTrozos = localStorage.getItem("trozosImagen");
+    if (imagenesGuardadasTrozos && JSON.parse(imagenesGuardadasTrozos).length > 0) {
+        mostrarImagenesGuardadas(); // Mostrar imágenes guardadas si existen
+    } else {
+        mostrarImagen(); // Mostrar nuevas imágenes si no hay guardadas
+    }
+
+    // Recuperar el contador de intentos desde localStorage o establecer a 0 si no existe
+    contIntentos = parseInt(localStorage.getItem("contadorIntentos"), 10) || 0;
+
+    // Actualizar las respuestas almacenadas en localStorage
     actualizarRespuestas();
+
+    // Aplicar efectos de agrandado a los botones y elementos interactivos
     agrandar();
 
-    // Boton para modo oscuro/claro
+    // Configurar el botón para cambiar entre modo claro y oscuro
     document.getElementById("btnCambioFondo").addEventListener("click", () => cambiarFondoConImagen());
 };
+
+
 //----------------- FIN - LLAMADA FUNCIONES ------------------ //
