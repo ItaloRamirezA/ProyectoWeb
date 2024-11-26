@@ -251,40 +251,31 @@ function agregarRespuesta() {
         hasPerdido();
         
         alert(`Has fallado. Intentelo de nuevo. Te quedan ${MAXINTENTOS - contIntentos} intentos.`);
-        console.log("muestra error");
+        
         
         mostrarImagen();
-        console.log("mostrar imaagen");
         
         
 
         let respuestas = localStorage.getItem("respuestas");
-        console.log("se guarda respeuesta en local storage");
         
         if (respuestas) {
-            console.log("tiene respuesta");
             
             respuestas = JSON.parse(respuestas);
 
         } else {
-            console.log("mo tiene respuesta");
             respuestas = [];
         }
 
         respuestas.push(respuestaUsario);
-        console.log("reouestas a reosuesta");
         
         localStorage.setItem("respuestas", JSON.stringify(respuestas));
-        console.log("meter a local storage respeustas");
         
         localStorage.setItem("contadorIntentos", contIntentos);
-        console.log("contador intentos a local storage");
         
         actualizarRespuestas();
-        console.log("actualizar respeustas");
         
         respuestaUsario.value = "";
-        console.log("borrar texto de respuesta");
         
 
     } else {
@@ -299,7 +290,6 @@ function agregarRespuesta() {
  */
 function hasPerdido() {
     if (MAXINTENTOS <= contIntentos) {
-        console.log("Entramos en fallo total");
         
         alert(`¡Has perdido! El mob es ${mobSeleccionado[0]}.`);
         guardarContadorLocalStorage();
@@ -413,8 +403,6 @@ function botonAdivinar() {
 
     // Respuesta del usuario
     respuestaUsario = document.getElementById("entrada-respuesta").value.trim();
-    console.log("Respuesta Usario: " + respuestaUsario);
-    console.log("Contador: " + contIntentos);
     agregarRespuesta();
 }
 

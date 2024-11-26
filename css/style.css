@@ -96,11 +96,19 @@ button {
     font-size: 20px; /* probablmenete borrar */
 }
 
+#contenedor-corazones{
+    padding: 10px;
+}
+
+#corazon{
+    width: 50px;
+    color: white;
+}
+
 
 /* ------------------ Zona Adivinar ------------------ */
 /* Entrada de texto */
 #entrada-respuesta{
-    margin-top: 20px;
     padding: 10px;
     width: 80%;
     max-width: 400px;
@@ -110,13 +118,13 @@ button {
     background-color: #222;
     color: white;
 }
+
 #entrada-respuesta::placeholder {
     font-family: 'Regular', sans-serif; /* Fuente de mc y una fuente por si falla */
 }
 
 /* Boton Adivinar */
 #boton-adivinar {
-    margin-top: 20px;
     padding: 10px 20px;
     font-size: 120%;
     background-color: greenyellow;
