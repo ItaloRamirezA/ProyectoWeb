@@ -156,7 +156,11 @@ function reiniciarJuego() {
     trozosUsados = [];
     elegirImagenRandom();
     document.getElementById('contenedor-imagen-adivinar').innerHTML = "";
+    
     localStorage.removeItem("trozosImagen");
+    localStorage.removeItem("contadorIntentos");
+    localStorage.removeItem("trozosImagen");
+
     eliminarRespuestas();
     mostrarImagen();
     guardarContadorLocalStorage();
